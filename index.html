@@ -34,7 +34,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-o
 #view{flex:1;direction:ltr;overflow-x:hidden;overflow-y:auto;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;position:relative}
 #stage{min-width:100%;min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:14px 12px 24px;box-sizing:border-box;width:max-content}
 .page{direction:rtl;background:var(--paper);position:relative;box-sizing:border-box;box-shadow:0 1px 2px rgba(0,0,0,.08),0 8px 28px rgba(60,40,0,.10);transform-origin:top center;color:var(--ink)}
-.lines{position:absolute;inset:var(--pad);display:flex;flex-direction:column}
+.lines{position:absolute;inset:var(--pad) var(--padx,var(--pad));display:flex;flex-direction:column}
+.page.bold .ln span,.page.bold .flow{-webkit-text-stroke:.02em currentColor}
 .ln{flex:1;display:flex;align-items:center;justify-content:space-between;direction:rtl;white-space:nowrap;line-height:1}
 .ln span{display:block}
 .ln.c{justify-content:center;gap:.22em}
@@ -89,6 +90,19 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-o
 .hlayer{position:absolute;inset:0;pointer-events:none}
 .hlayer i{position:absolute;background:var(--hl);border-radius:4px}
 .hlayer i.lrb{background:var(--lr)}
+.hlayer i.stb{opacity:.16}
+.hlayer .stt{position:absolute;width:16px;height:20px;transform:translate(-50%,-38%)}.hlayer .stt svg{width:100%;height:100%}
+.wbal{min-width:44px;height:30px;padding:0 9px;border-radius:9px;font:700 15px/30px system-ui,sans-serif;direction:ltr;font-variant-numeric:tabular-nums;border:1.5px solid currentColor}
+.wbal.neg{color:#b3261e;background:color-mix(in srgb,#b3261e 8%,transparent)}.wbal.ok{color:var(--frame);background:var(--tint)}
+.stb svg path{fill:none}
+.stl{display:grid;gap:8px}
+.str{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:6px 10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+.str .dot{width:16px;height:22px}.str .dot svg{width:100%;height:100%}
+.str .lab{min-width:0;font-size:14px;line-height:1.6}.str .lab small{display:block;color:var(--muted);font-size:12.5px}
+.str .sta{display:flex;gap:6px;grid-column:2;flex-wrap:wrap}.str .sta button{padding:6px 10px;border-radius:9px;border:1px solid var(--line);font-size:13px;background:var(--bg)}
+.stf{grid-column:1/-1;display:flex;gap:6px;margin-top:4px}.stf input{flex:1;min-width:0;font:inherit;font-size:14px;padding:8px 10px;border-radius:9px;border:1.5px solid var(--frame);background:var(--bg);color:var(--ink)}.stf input.err{border-color:#b3261e}.stf button{padding:6px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg);font-size:13px}.stf button.pri{background:var(--frame);color:var(--paper);border-color:var(--frame)}
+.str .stn{font-weight:600}
+.str .sta button.pri{background:var(--frame);color:var(--paper);border-color:var(--frame)}
 .hlayer .lrt{position:absolute;width:18px;height:22px;transform:translate(-50%,-38%);color:var(--frame)}
 .hlayer .lrt svg{width:100%;height:100%;fill:var(--frame)}
 .lrbtn svg path:last-child{stroke:var(--frame)}
@@ -273,6 +287,7 @@ body.ui-l .nv span{white-space:nowrap}
 .asz b{font-size:16px;color:var(--frame);font-variant-numeric:tabular-nums}.asz small{font-size:10px;color:var(--muted)}
 .asb #asV2{min-width:0}
 .hver{text-align:center;opacity:.55;font-size:.85em;margin:14px 0 6px}
+.bkt{display:grid;gap:2px;margin-bottom:10px}.bkt div{display:flex;justify-content:space-between;gap:12px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}.bkt span{color:var(--muted)}.bkt b{font-weight:600;text-align:left}
 .gd{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .gdh{display:flex;justify-content:space-between;align-items:center;padding:10px max(16px,env(safe-area-inset-right,0px)) 4px max(16px,env(safe-area-inset-left,0px));font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .gdh button{color:var(--frame);font-weight:600;padding:6px 4px}
@@ -353,7 +368,9 @@ body.ui-l .nv span{white-space:nowrap}
   <div class="ttl"><div class="sname" id="sname">الفاتحة</div><div class="meta" id="meta">الجزء ١ · صفحة ١</div></div>
   <div class="gw"><div class="bver" data-ver></div>
   <div class="grp">
-    <button class="ib lrgo" id="lrB" aria-label="الذهاب إلى آخر قراءة" hidden><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/><path d="M9.5 9.5l2 2 3.5-4"/></svg></button>
+    <button class="wbal" id="wBal" hidden aria-label="رصيد الورد اليوم"></button>
+    <button class="ib stb" id="stB" aria-label="علامات الوقف الملوّنة"><svg viewBox="0 0 24 24"><path d="M5 2h9v18l-4.5-3.4L5 20z"/><path d="M14 6h5v16l-2.5-1.9" opacity=".55"/></svg></button>
+    <button class="ib lrgo" id="lrB" aria-label="الذهاب إلى وقف الورد" hidden><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/><path d="M9.5 9.5l2 2 3.5-4"/></svg></button>
     <button class="ib" id="srchB" aria-label="البحث"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
     <button class="ib" id="bmB" aria-label="علامة على هذه الصفحة" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg></button>
   </div></div>
@@ -402,6 +419,7 @@ body.ui-l .nv span{white-space:nowrap}
       <button class="wide" id="asGo">بدء التمرير التلقائي</button>
       </div>
       <div class="og">
+      <label class="sw"><span><b>ملء الشاشة بالصفحة</b><small>تمتد الصفحة إلى أسفل الشاشة فلا يبقى فراغ، وتتباعد السطور قليلًا دون تغيير حجم الخط</small></span><input type="checkbox" id="fillT"><i></i></label>
       <label class="sw"><span><b>إبقاء الشاشة مضاءة</b><small>لا تنطفئ الشاشة أثناء القراءة</small></span><input type="checkbox" id="wakeT"><i></i></label>
       </div>
     </div>
@@ -431,6 +449,7 @@ body.ui-l .nv span{white-space:nowrap}
         <small class="hint">يظهر الخط الذي تختاره عندما تكبّر الصفحة أكثر من ١٠٠٪. في الحجم الطبيعي تبقى الصفحة بخط المصحف الأصلي وترتيب أسطره.</small>
         <div class="fl" id="qfList"></div>
         <div class="spd"><button class="ib" id="fzM" aria-label="تصغير">−</button><div><b id="fzV"></b><small>حجم التكبير</small></div><button class="ib" id="fzP" aria-label="تكبير">+</button></div>
+        <label class="sw"><span><b>خط أوضح وأكبر</b><small>تضيق الهوامش الجانبية فيكبر خط المصحف، ويصبح أعرض قليلًا. أطفئه للعودة إلى الشكل الأصلي</small></span><input type="checkbox" id="boldT"><i></i></label>
         <label class="sw"><span><b>قفل التكبير</b><small>يمنع تكبير الصفحة أو تصغيرها دون قصد، بالأصابع أو بأزرار − و+ أسفل الشاشة. ولقفله أو فتحه بسرعة: اضغط مطولًا على شريط التكبير أسفل الشاشة.</small></span><input type="checkbox" id="zlT"><i></i></label>
         <label class="sw"><span><b>رسالة التنبيه عند القفل</b><small>تظهر ٥ ثوانٍ حين تحاول التكبير والقفل مفعّل، لتذكّرك بطريقة فتحه. أطفئها لإخفائها.</small></span><input type="checkbox" id="zmT"><i></i></label>
       </div>
@@ -442,6 +461,13 @@ body.ui-l .nv span{white-space:nowrap}
     </div>
     <div class="opn" data-op="tools" hidden>
       <div class="og"><button class="wide" id="gdOpen">دليل الاستخدام: كيف أستعمل البرنامج؟</button></div>
+      <div class="og"><div class="ol">القراءة بدون إنترنت</div>
+        <button class="wide" id="fdB">تنزيل صفحات المصحف كلها</button>
+        <div class="dlp" id="fdP" hidden><div class="bar2"><i id="fdBar"></i></div><span id="fdT"></span></div>
+        <small class="hint" id="fdH">يحفظ صفحات المصحف الـ٦٠٤ في الجوال (نحو ٩٥ ميغابايت) فتقرأ دون إنترنت. والتفاسير محفوظة في البرنامج أصلًا. ولتنزيل التلاوات: نافذة الاستماع ← بدون إنترنت.</small></div>
+      <div class="og"><div class="ol">النسخة الاحتياطية</div>
+        <div class="wrow"><button class="wide" id="bkSave">حفظ نسخة احتياطية</button><button class="wide alt" id="bkLoad">استعادة نسخة</button></div>
+        <small class="hint">ملف واحد يحفظ كل ما في البرنامج: العلامات، ووقف الورد، والورد اليومي وسجلّه، وختمة الاستماع، وختمة التدبّر وملاحظاتها، والملاحظات، والقرّاء المفضّلين، والإعدادات كلها. احفظه في مكان آمن لتستعيده بعد تغيير الهاتف أو حذف البرنامج. التلاوات المنزّلة لا تدخل فيه لكبر حجمها.</small></div>
       <div class="og">
       <label class="sw"><span><b>وضع الحفظ</b><small>تُخفى الكلمات، وكل لمسة على الصفحة تكشف الكلمة التالية</small></span><input type="checkbox" id="hzT"><i></i></label>
         <button class="wide alt" id="goNotes">الملاحظات والنسخ الاحتياطي</button>
@@ -472,7 +498,8 @@ body.ui-l .nv span{white-space:nowrap}
     <button id="aAuto"><svg viewBox="0 0 24 24"><path d="M12 3v14M7 12l5 5 5-5M5 21h14"/></svg><span id="aAutoT">تمرير تلقائي</span></button>
     <button id="aNote"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span id="aNoteT">ملاحظة</span></button>
     <button id="aTd" hidden><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3z"/><path d="M9 21h6"/></svg>تدبّر</button>
-    <button id="aLr" class="lrbtn"><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/><path d="M9.5 9.5l2 2 3.5-4"/></svg><span id="aLrT">آخر قراءة</span></button>
+    <button id="aLr" class="lrbtn"><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/><path d="M9.5 9.5l2 2 3.5-4"/></svg><span id="aLrT">وقف الورد</span></button>
+    <button id="aSt"><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/></svg>وقف ملوّن</button>
     <button id="aBm"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg><span id="aBmT">علامة</span></button>
   </div>
 </div>
@@ -528,6 +555,9 @@ body.ui-l .nv span{white-space:nowrap}
         <button class="wide" id="dlB">تنزيل تلاوة السورة الحالية</button>
         <div class="dlp" id="dlP" hidden><div class="bar2"><i id="dlBar"></i></div><span id="dlT"></span></div>
         <small class="hint" id="dlH">تُحفظ كل آية تستمع إليها تلقائيًا في الجوال، ويمكنك تنزيل سورة كاملة مسبقًا.</small>
+        <button class="wide alt" id="daB">تنزيل القرآن كاملًا</button>
+        <div class="dlp" id="daP" hidden><div class="bar2"><i id="daBar"></i></div><span id="daT"></span></div>
+        <small class="hint" id="daH"></small>
       </div>
     </div>
   </div>
@@ -571,6 +601,21 @@ body.ui-l .nv span{white-space:nowrap}
         <div class="wrow"><button class="wide" id="tdnS">حفظ</button><button class="wide alt" id="tdnDel">حذف</button></div>
       </div>
     </div>
+  </div>
+</div>
+<div id="stS" class="ovl" hidden>
+  <div class="sh" role="dialog" aria-label="علامات الوقف الملوّنة">
+    <div class="oh"><span>علامات الوقف الملوّنة</span><button class="ib" id="stX" aria-label="إغلاق">✕</button></div>
+    <div class="sbody"><div class="og"><small class="hint" id="stHint"></small><div id="stL" class="stl"></div>
+      <small class="hint">لكل لون علامة واحدة تتابع بها قراءة مستقلة، مثل سورة الكهف يوم الجمعة أو سورة تحفظها، ولا تؤثر في وقف الورد ولا في حساب وردك. ويمكنك تسمية أي علامة بزر «+ اسم». ولنقل علامة إلى موضع آخر: احذفها بزر ✕ ثم ضعها من جديد.</small></div></div>
+  </div>
+</div>
+<div id="bk" class="ovl" hidden>
+  <div class="sh" role="dialog" aria-label="استعادة نسخة احتياطية">
+    <div class="oh"><span>استعادة نسخة احتياطية</span><button class="ib" id="bkX" aria-label="إغلاق">✕</button></div>
+    <div class="sbody"><div class="og"><div id="bkInfo"></div>
+      <small class="hint">ستحلّ هذه النسخة محلّ كل ما في البرنامج الآن من علامات وورد وملاحظات وإعدادات، ثم يُعاد فتح البرنامج.</small>
+      <div class="wrow"><button class="wide" id="bkGo">استعِد الآن</button><button class="wide alt" id="bkNo">إلغاء</button></div></div></div>
   </div>
 </div>
 <div id="xfer" class="ovl" hidden>
@@ -631,7 +676,7 @@ body.ui-l .nv span{white-space:nowrap}
 </div>
 <div class="toast" id="toast"></div>
 
-<script>/*APP_VERSION*/window.APP_VERSION="1.58";/*END*/
+<script>/*APP_VERSION*/window.APP_VERSION="1.70";/*END*/
 document.querySelectorAll("[data-ver]").forEach(e=>e.textContent="الإصدار "+window.APP_VERSION.replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]).replace(".","٫"))</script>
 <script src="data.js"></script>
 <script>
@@ -671,13 +716,24 @@ let zoom=Math.min(4,Math.max(1,+(store.get('mushaf-zoom')||1)));
 let ratio=0; // font-size / inner width for a full line
 const view=$('view'), stage=$('stage');
 
+// page height: the classic 1.58 ratio, or stretched to the screen height so no empty band is left below the page
+let fillPg=store.get('mushaf-fill')!=='0';
+// clearer script: narrower side margins (larger glyphs) and slightly thicker strokes
+let boldPg=store.get('mushaf-bold')!=='0';
+// in continuous scroll every page uses the tallest screen height seen at this width (bars hidden), so all pages match
+let maxVH={};try{maxVH=JSON.parse(store.get('mushaf-maxvh')||'{}')||{}}catch(e){}
+function noteVH(){const k=Math.round(innerWidth/10),h=view.clientHeight;if(h>(maxVH[k]||0)+2){maxVH[k]=h;store.set('mushaf-maxvh',JSON.stringify(maxVH));return true}return false}
+function pageH(W){const h=W*1.58;if(!fillPg)return h;
+  const vh=mode==='v'?Math.max(view.clientHeight,maxVH[Math.round(innerWidth/10)]||0):view.clientHeight;
+  return Math.max(h,Math.min(W*2.3,vh-38))}
 function baseW(){const vw=view.clientWidth-24, vh=view.clientHeight-38; return Math.max(240,mode==='v'?Math.min(vw,620):Math.min(vw, vh/1.58, 620))}
 
 function build(pg){
-  const d=P[pg-1], W=baseW(), H=W*1.58;
+  const d=P[pg-1], W=baseW(), H=pageH(W);
   const el=document.createElement('div'); el.className='page'+(pg<=2?' p12':'');el.dataset.pg=pg;
   el.style.width=W+'px'; el.style.height=H+'px';
   el.style.setProperty('--fi',(W*.025)+'px'); el.style.setProperty('--fb',Math.max(1,W*.006)+'px'); el.style.setProperty('--pad',(W*.065)+'px');
+  if(boldPg&&pg>2){el.classList.add('bold');el.style.setProperty('--padx',(W*.026)+'px')}
   const lines=document.createElement('div'); lines.className='lines'; el.appendChild(lines);
   const ff=`QP${pg}`;
   for(const l of d.l){
@@ -782,6 +838,7 @@ async function fill(el,pg,isLive){
   if(pg<=2&&!ratio){try{await pageFont(3);const t=build(3);t.style.cssText+=';position:absolute;visibility:hidden';stage.appendChild(t);fit(t,3);t.remove()}catch(e){}}
   if(!isLive()||!el.isConnected)return;
   el.querySelector('.lines').style.visibility='';const fs=fit(el,pg); if(zoom>1)reflow(el,pg,fs); ld.remove(); markSel(el); drawMarks(el,pg); applyHifz(el,pg);
+  el._fz=zoom;el._fw=baseW();el._fb=boldPg;
 }
 
 let token=0;
@@ -801,7 +858,8 @@ function vPages(){return [...stage.children]}
 let anc=null;
 function recAnchor(){const st=view.scrollTop;for(const e of stage.children){if(e.offsetTop+e.offsetHeight>st){anc={el:e,off:st-e.offsetTop,h:e.offsetHeight};return}}anc=null}
 function restore(){if(mode!=='v'||!anc||!anc.el.isConnected)return;const h=anc.el.offsetHeight;if(h!==anc.h&&anc.h){anc.off=anc.off*h/anc.h;anc.h=h}
-  const t=anc.el.offsetTop+anc.off;if(Math.abs(view.scrollTop-t)>.5)view.scrollTop=t}
+  const t=anc.el.offsetTop+anc.off;if(Math.abs(view.scrollTop-t)>.5){view.scrollTop=t;ownTop=view.scrollTop}}
+let ownTop=-1; // scroll position the app itself set; its scroll event is not the reader scrolling
 function vAdd(pg,before){
   const my=token, el=build(pg); el.dataset.pg=pg;
   if(before){stage.insertBefore(el,stage.firstChild);restore()}
@@ -818,6 +876,12 @@ async function showV(pg,frac){
   recAnchor(); vFill();
   await el._ready;
 }
+// a page that was laid out at another zoom or width, or whose lines spill over, is laid out again when it comes into view
+function vCheck(e){if(e._fz===undefined||e._fix)return;const pg=+e.dataset.pg;
+  let bad=e._fz!==zoom||e._fb!==boldPg||Math.abs(e._fw-baseW())>2||(zoom>1)!==e.classList.contains('zoomed')||(zoom===1&&Math.abs(parseFloat(e.style.height)-pageH(baseW()))>2);
+  if(!bad&&zoom===1)bad=[...e.querySelectorAll('.ln')].some(r=>r.children.length&&r.scrollWidth>r.clientWidth+2);
+  if(!bad)return;e._fix=1;const my=token,n=build(pg);n.dataset.pg=pg;const above=e.offsetTop<view.scrollTop;
+  stage.replaceChild(n,e);ro.unobserve(e);ro.observe(n);n._ready=fill(n,pg,()=>my===token);if(above)restore()}
 function vFill(){
   if(vBusy||mode!=='v')return; vBusy=true;
   try{
@@ -826,13 +890,15 @@ function vFill(){
     if(ps.length&&+ps[0].dataset.pg>1&&view.scrollTop<vh*1.5){vAdd(+ps[0].dataset.pg-1,true);ps=vPages()}
     while(ps.length>3&&ps[0]!==anc?.el&&ps[0].offsetTop+ps[0].offsetHeight<view.scrollTop-vh*3){const e=ps.shift();ro.unobserve(e);e.remove();restore()}
     while(ps.length>3&&ps[ps.length-1].offsetTop>view.scrollTop+vh*4){const e=ps.pop();ro.unobserve(e);e.remove()}
+    for(const e of ps)if(e.offsetTop<view.scrollTop+vh&&e.offsetTop+e.offsetHeight>view.scrollTop)vCheck(e);
     const mid=view.scrollTop+vh/2; for(const e of ps){if(e.offsetTop<=mid&&e.offsetTop+e.offsetHeight>=mid){if(+e.dataset.pg!==cur)setHeader(+e.dataset.pg);break}}
   } finally {vBusy=false}
 }
 let lastST=0;
 view.addEventListener('scroll',()=>{if(mode!=='v')return;
   // record the anchor only for real scrolling, not for our own corrections
-  if(!anc||Math.abs(view.scrollTop-(anc.el.offsetTop+anc.off))>1)recAnchor();
+  if(ownTop>=0&&Math.abs(view.scrollTop-ownTop)<=1){ownTop=-1;restore()}
+  else if(!anc||Math.abs(view.scrollTop-(anc.el.offsetTop+anc.off))>1)recAnchor();
   requestAnimationFrame(vFill)},{passive:true});
 
 function show(pg,keep){pg=Math.min(604,Math.max(1,pg)); stage.classList.toggle('vmode',mode==='v'); return mode==='v'?showV(pg,keep?vFrac():0):showH(pg,keep)}
@@ -894,7 +960,7 @@ view.addEventListener('touchend',e=>{
 },{passive:true});
 
 // options sheet
-function syncOpts(){
+function syncOpts(){try{syncFd()}catch(e){}
   document.querySelectorAll('#opts [data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===mode));
   document.querySelectorAll('#opts [data-theme-v]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.themeV===theme));
 }
@@ -917,11 +983,14 @@ $('bmB').onclick=()=>{const i=bm.findIndex(b=>b.p===cur&&b.v<0);
 // ---- ayah selection (long press) ----
 let selV=-1;
 function markSel(root){root=root||stage;
-  root.querySelectorAll('span[data-v]').forEach(x=>{const v=+x.dataset.v;x.classList.toggle('sel',v===selV);x.classList.toggle('lr',v===lastRead);x.classList.toggle('pl',v===au.v&&au.on)});
+  const sv={};try{for(const c in stops)sv[stops[c].v]=c}catch(e){}
+  root.querySelectorAll('span[data-v]').forEach(x=>{const v=+x.dataset.v;x.classList.toggle('sel',v===selV);x.classList.toggle('lr',v===lastRead);x.classList.toggle('pl',v===au.v&&au.on);
+    const c=sv[v];if(c)x.dataset.st=c;else delete x.dataset.st});
   (root.classList.contains('page')?[root]:[...root.querySelectorAll('.page')]).forEach(drawSel)}
 // one continuous band per visual line behind an ayah
-function bands(pe,cls){
-  const sp=[...pe.querySelectorAll('span.'+cls)];const pr=pe.getBoundingClientRect(),rows=[];
+function bands(pe,cls){return bandsSel(pe,'span.'+cls)}
+function bandsSel(pe,sel){
+  const sp=[...pe.querySelectorAll(sel)];const pr=pe.getBoundingClientRect(),rows=[];
   for(const x of sp){const row=x.closest('.ln'), r=x.getBoundingClientRect(); if(!r.width)continue;
     const box=row?row.getBoundingClientRect():r, fs=parseFloat(getComputedStyle(x).fontSize)||16;
     const lh=parseFloat(getComputedStyle(x.parentNode).lineHeight)||fs*2, mid=(r.top+r.bottom)/2, top=row?box.top:mid-lh/2, bot=row?box.bottom:mid+lh/2, cy=(top+bot)/2;
@@ -938,12 +1007,16 @@ function drawSel(pe){
   lr.forEach(g=>{const i=document.createElement('i');i.className='lrb';Object.assign(i.style,{left:g.left+'px',width:g.width+'px',top:g.top+'px',height:g.height+'px'});L.appendChild(i)});
   if(lr.length){const g=lr[0],t=document.createElement('b');t.className='lrt';t.style.top=g.top+'px';t.style.left=Math.min(g.right,pe.clientWidth-6)+'px';
     t.innerHTML='<svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/></svg>';L.appendChild(t)}
+  try{for(const [c,hex] of ST_COLORS){const st=bandsSel(pe,`span[data-st="${c}"]`);
+    st.forEach(g=>{const i=document.createElement('i');i.className='stb';Object.assign(i.style,{left:g.left+'px',width:g.width+'px',top:g.top+'px',height:g.height+'px',background:hex});L.appendChild(i)});
+    if(st.length){const g=st[0],t=document.createElement('b');t.className='stt';t.style.top=g.top+'px';t.style.left=Math.min(g.right,pe.clientWidth-6)+'px';
+      t.innerHTML=`<svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z" fill="${hex}"/></svg>`;L.appendChild(t)}}}catch(e){}
   pl.forEach(g=>{const i=document.createElement('i');i.className='plb';Object.assign(i.style,{left:g.left+'px',width:g.width+'px',top:g.top+'px',height:g.height+'px'});L.appendChild(i)});
   sl.forEach(g=>{const i=document.createElement('i');Object.assign(i.style,{left:g.left+'px',width:g.width+'px',top:g.top+'px',height:g.height+'px'});L.appendChild(i)});
   if(L.children.length)pe.insertBefore(L,pe.querySelector('.lines,.flowwrap'));
 }
 function selectVerse(v){selV=v;markSel();$('actT').textContent='سورة '+vRef(v).replace(/ (\S+)$/,'، آية $1');
-  $('aLrT').textContent=v===lastRead?'إزالة آخر قراءة':'آخر قراءة';
+  $('aLrT').textContent=v===lastRead?'إزالة وقف الورد':'وقف الورد';
   $('aBmT').textContent=bm.some(b=>b.v===v)?'إزالة العلامة':'علامة';$('act').hidden=false}
 function clearSel(){if(selV<0)return;selV=-1;markSel();$('act').hidden=true}
 $('actX').onclick=clearSel;
@@ -971,8 +1044,8 @@ $('aShare').onclick=async()=>{const v=selV;if(v<0)return;const t=await verseText
   try{if(navigator.share){await navigator.share({text:t});return}}catch(e){if(e&&e.name==='AbortError')return}
   try{await copyText(t);toast('نُسخت الآية، الصقها حيث تريد')}catch(e){toast('المشاركة غير متاحة هنا')}};
 $('aLr').onclick=()=>{const v=selV;if(v<0)return;
-  if(lastRead===v){lastRead=-1;toast('أُزيلت علامة آخر قراءة')}else{lastRead=v;lastReadT=Date.now();toast('آخر قراءة: '+vRef(v))}
-  store.set('mushaf-lr',lastRead);store.set('mushaf-lrt',lastReadT);clearSel();markSel();syncLrB();if(syncWirdLr(true)&&wird)toast('آخر قراءة: '+vRef(lastRead)+' · تحدّث وردك')};
+  if(lastRead===v){lastRead=-1;toast('أُزيلت علامة وقف الورد')}else{lastRead=v;lastReadT=Date.now();toast('وقف الورد: '+vRef(v))}
+  store.set('mushaf-lr',lastRead);store.set('mushaf-lrt',lastReadT);clearSel();markSel();syncLrB();if(syncWirdLr(true)&&wird)toast('وقف الورد: '+vRef(lastRead)+' · تحدّث وردك')};
 $('aBm').onclick=()=>{const v=selV;if(v<0)return;const i=bm.findIndex(b=>b.v===v);
   if(i>=0){bm.splice(i,1);toast('أُزيلت العلامة')}else{bm.unshift({p:QDATA.vp[v],v,t:Date.now()});toast('حُفظت علامة على '+vRef(v))}saveBm();clearSel()};
 
@@ -1054,7 +1127,7 @@ function renderList(){
     b.innerHTML=`<span class="no">${ar(i+1)}</span><span class="t">الجزء ${ar(i+1)}</span><span class="s">سورة ${S[surahAt(pg)-1][0]} · ص ${ar(pg)}</span>`;b.onclick=()=>{$('sheet').hidden=true;show(pg)};L.appendChild(b)})}
   else{
     if(lastRead>=0){const b=document.createElement('button');b.className='it lrrow';
-      b.innerHTML=`<span class="no" style="border-color:var(--frame)"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:var(--frame)"><path d="M6 2h12v20l-6-4.5L6 22z"/></svg></span><span class="t"></span><span class="s">آخر قراءة · ص ${ar(QDATA.vp[lastRead])}</span>`;
+      b.innerHTML=`<span class="no" style="border-color:var(--frame)"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:var(--frame)"><path d="M6 2h12v20l-6-4.5L6 22z"/></svg></span><span class="t"></span><span class="s">وقف الورد · ص ${ar(QDATA.vp[lastRead])}</span>`;
       b.querySelector('.t').textContent='سورة '+vRef(lastRead).replace(/ (\S+)$/,'، آية $1');b.onclick=()=>{$('sheet').hidden=true;goLastRead()};L.appendChild(b)}
     if(!bm.length&&lastRead>=0){const e=document.createElement('div');e.className='empty';e.innerHTML='اضغط مطولًا على آية واختر «علامة» لحفظ علامات أخرى.';L.appendChild(e);return}
     if(!bm.length){L.innerHTML='<div class="empty">لا توجد علامات بعد.<br>اضغط رمز العلامة في الأعلى لحفظ الصفحة، أو اضغط مطولًا على آية واختر «علامة».</div>';return}
@@ -1080,7 +1153,7 @@ function pageFirstV(pg){const[s2,a2]=P[pg-1].v.split(':').map(Number);return VB[
 function hizbLabel(pg){const i=quarterOf(pageFirstV(pg)),h=(i>>2)+1,p=i&3;return (p?FR[p]+' ':'')+'الحزب '+ar(h)}
 function drawMarks(pe,pg){
   pe.querySelectorAll('.mlayer').forEach(x=>x.remove());
-  const W=pe.clientWidth,pad=W*.065,pr=pe.getBoundingClientRect(),L=document.createElement('div');L.className='mlayer';
+  const W=pe.clientWidth,pad=pe.classList.contains('bold')?W*.026:W*.065,pr=pe.getBoundingClientRect(),L=document.createElement('div');L.className='mlayer';
   const rowY=sp=>{const row=sp.closest('.ln'),r=(row||sp).getBoundingClientRect();return (r.top+r.bottom)/2-pr.top};
   QDATA.q.forEach((v,i)=>{if(!i||QDATA.vp[v]!==pg)return;const sp=pe.querySelector(`span[data-v="${v}"]`);if(!sp)return;
     const h=(i>>2)+1,p=i&3,m=document.createElement('div');m.className='mk';
@@ -1223,7 +1296,7 @@ function rcBtn(id,nm){const b=document.createElement('button');b.textContent=(rc
   b.addEventListener('pointermove',e=>{if(Math.hypot(e.clientX-sx,e.clientY-sy)>10)clearTimeout(t)});
   ['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,()=>clearTimeout(t)));
   b.addEventListener('contextmenu',e=>e.preventDefault());
-  b.onclick=e=>{if(long){e.preventDefault();long=false;return}au.rc=id;store.set('mushaf-rc',id);
+  b.onclick=e=>{if(long){e.preventDefault();long=false;return}au.rc=id;store.set('mushaf-rc',id);try{if(!da.run)syncDa()}catch(e){}
     document.querySelectorAll('#rcList button,#rcFav button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.rc===id));syncAud();if(au.on)auVerse(au.v)};
   return b}
 function toggleRcFav(id,nm){
@@ -1239,7 +1312,7 @@ function chips(el,val,set){el.replaceChildren();[1,2,3,5,10,0].forEach(n=>{const
   b.setAttribute('aria-pressed',n===val);b.onclick=()=>{set(n);el.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));syncAud()};el.appendChild(b)})}
 function fillAyahSel(){const s2=+$('rgS').value,A=$('rgA');A.replaceChildren();A.disabled=s2<=0;if(s2<=0)return;
   for(let a2=1;a2<=S[s2-1][2];a2++){const o=document.createElement('option');o.value=VB[s2-1]+a2-1;o.textContent='آية '+ar(a2);A.appendChild(o)}}
-function openAudS(){
+function openAudS(){try{syncDa()}catch(e){}
   renderRc();
   {const E=$('spd');E.replaceChildren();SPEEDS.forEach(n=>{const b=document.createElement('button');b.textContent=spdTxt(n);b.setAttribute('aria-pressed',n===au.spd);
     b.onclick=()=>{au.spd=n;store.set('mushaf-spd',n);applySpd();E.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));syncAud()};E.appendChild(b)})}
@@ -1283,7 +1356,12 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){try{navigator.ser
 // ---- daily wird ----
 let wird=null;try{wird=JSON.parse(store.get('mushaf-wird')||'null')}catch(e){}
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const saveWird=()=>store.set('mushaf-wird',JSON.stringify(wird));
+const saveWird=()=>{store.set('mushaf-wird',JSON.stringify(wird));pushWidget();try{syncBal()}catch(e){}};
+// home-screen widget (Android): send the plan so the widget can show what is left today, even after midnight
+const utcDay=k=>{const[y,m,d]=k.split('-').map(Number);return Math.round(Date.UTC(y,m-1,d)/864e5)};
+function pushWidget(){try{if(!window.AndroidBridge||!AndroidBridge.widgetUpdate)return;
+  const d=wird&&wird.sday?{on:true,base:wird.base,per:wird.per,sd:utcDay(wird.sday),dd:utcDay(wird.day||today()),pos:wird.pos,dayPos:wird.dayPos??wird.pos}:{on:false};
+  AndroidBridge.widgetUpdate(JSON.stringify(d))}catch(e){}}
 function wirdRoll(){if(!wird)return;const t=today();
   // older plans: rebuild the schedule start from the reading log
   if(wird.base==null){const read=Object.values(wird.log||{}).reduce((a,b)=>a+(+b||0),0);wird.base=Math.max(0,wird.pos-read);wird.sday=wird.start||t;saveWird()}
@@ -1356,7 +1434,7 @@ function renderWird(){
         <label for="wfP">${wf.kind==='cont'?'الصفحة التي ستكمل منها':'رقم صفحة البداية'}</label>
         <input type="number" id="wfP" inputmode="numeric" min="1" max="604" value="${wf.from}">
         <div class="rng"><select id="wfS" aria-label="اختر سورة"><option value="">أو اختر سورة…</option>${sOpts}</select><select id="wfJ" aria-label="اختر جزءًا"><option value="">أو جزءًا…</option>${jOpts}</select></div>
-        ${lastRead>=0?`<button class="wide alt" id="wfLr" style="padding:8px">من علامة آخر قراءة · صفحة ${ar(QDATA.vp[lastRead])}</button>`:''}
+        ${lastRead>=0?`<button class="wide alt" id="wfLr" style="padding:8px">من علامة وقف الورد · صفحة ${ar(QDATA.vp[lastRead])}</button>`:''}
       </div>`:''}
       <div class="wsum">
         <div>تبدأ من <b>صفحة ${ar(wf.from)}</b> · سورة ${S[surahAt(wf.from)-1][0]}</div>
@@ -1399,13 +1477,13 @@ function renderWird(){
   </div></div>
   <div class="og"><div class="wst"><div><b>${ar(Math.max(0,Math.min(100,pct)))}٪</b><span>من الختمة</span></div><div><b>${ar(streak())}</b><span>أيام متتالية</span></div><div><b>${ar(done?0:left)}</b><span>يومًا متبقيًا</span></div></div></div>
   <div class="og">${done?'<button class="wide" id="wNew">ابدأ ختمة جديدة</button>':`<button class="wide" id="wGo">${dayDone?'تابع القراءة':'اذهب إلى وردي'} · صفحة ${ar(Math.min(604,wird.pos+1))}</button>${dayDone?'':'<button class="wide alt" id="wMark">أتممت ورد اليوم</button>'}`}
-    <small class="hint">تُحسب الصفحة مقروءة عندما تنتقل منها إلى التالية بعد قراءتها، أو تبقى عليها دقيقة تقريبًا. والصفحة التي عليها علامة آخر قراءة تبقى غير مقروءة حتى تنتقل منها إلى التالية.${wird.rem?' التذكير اليومي: '+ar(wird.rem):''}</small></div>
+    <small class="hint">تُحسب الصفحة مقروءة عندما تنتقل منها إلى التالية بعد قراءتها، أو تبقى عليها دقيقة تقريبًا. والصفحة التي عليها علامة وقف الورد تبقى غير مقروءة حتى تنتقل منها إلى التالية.${wird.rem?' التذكير اليومي: '+ar(wird.rem):''}</small></div>
   <div class="og"><div class="wrow"><button class="wide alt" id="wEdit">تعديل الخطة</button><button class="wide alt" id="wEnd">إنهاء الخطة</button></div></div>`;
   if($('wGo'))$('wGo').onclick=()=>{$('wird').hidden=true;wirdNextGo()};
   if($('wMark'))$('wMark').onclick=()=>{const n=b-wird.pos;if(n>0){wird.log[wird.day]=(wird.log[wird.day]||0)+n;wird.pos=b;saveWird();remText()}renderWird();toast('أتممت ورد اليوم، بارك الله فيك')};
   if($('wNew'))$('wNew').onclick=()=>{wird.pos=0;wird.startPage=1;wird.dayPos=0;wird.start=today();rebase();saveWird();renderWird()};
   $('wEdit').onclick=()=>{wf={by:'p',val:wird.per,from:Math.min(604,wird.pos+1),kind:'keep',rem:wird.rem||'',edit:true};renderWird()};
-  $('wEnd').onclick=e=>{if(e.target.dataset.sure){wird=null;store.set('mushaf-wird','null');applyRem();renderWird();return}e.target.dataset.sure=1;e.target.textContent='اضغط مرة أخرى للتأكيد'};
+  $('wEnd').onclick=e=>{if(e.target.dataset.sure){wird=null;store.set('mushaf-wird','null');pushWidget();try{syncBal()}catch(x){}applyRem();renderWird();return}e.target.dataset.sure=1;e.target.textContent='اضغط مرة أخرى للتأكيد'};
 }
 $('wirdB').onclick=()=>{wf.edit=false;if(!wird)wf={by:'p',val:20,from:1,kind:'first',rem:''};renderWird();$('wird').hidden=false};
 $('wirdX').onclick=()=>{$('wird').hidden=true};
@@ -1515,8 +1593,8 @@ function exportNotes(){const j=notesJSON(),name='ملاحظات-المصحف-'+t
   openXfer('export',j)}
 window.onFileSaved=(ok,cancel)=>{if(cancel)return;toast(ok?'حُفظ ملف الملاحظات':'تعذّر حفظ الملف')};
 function importNotes(){if(window.AndroidBridge&&AndroidBridge.openFile){AndroidBridge.openFile();return}openXfer('import','')}
-window.onFileOpened=t=>{if(t==null)return;mergeNotes(t)};
-$('xfF').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{mergeNotes(String(rd.result));$('xfer').hidden=true};rd.readAsText(f);e.target.value=''};
+window.onFileOpened=t=>{if(t==null)return;if(isBackup(t)){askRestore(t);return}mergeNotes(t)};
+$('xfF').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const t=String(rd.result);$('xfer').hidden=true;if(isBackup(t)){askRestore(t);return}mergeNotes(t)};rd.readAsText(f);e.target.value=''};
 function mergeNotes(text){
   let d;try{d=JSON.parse(text)}catch(e){toast('الملف غير صالح: ليس ملف ملاحظات من هذا التطبيق');return}
   const src=(d&&d.notes&&typeof d.notes==='object')?d.notes:{},tsrc=Array.isArray(d&&d.tadabbur)?d.tadabbur:[];
@@ -1687,10 +1765,10 @@ async function renderHome(){
     const lv=+(store.get('mushaf-lastv')??-1);
     if(cp.marker&&lv>lastRead&&lv<6236&&QDATA.vp[lv]>QDATA.vp[lastRead]){
       const x=document.createElement('div');x.className='past';
-      x.innerHTML=`<div class="pt">تجاوزت علامة آخر قراءة</div><div class="pb">توقفت عند سورة ${vRef(lv).replace(/ (\S+)$/,'، آية $1')} · صفحة ${ar(QDATA.vp[lv])}</div>
-        <div class="row"><button class="hbtn" data-p="go">انتقل لها</button><button class="hbtn alt" data-p="set">اجعلها آخر قراءة</button></div>`;
+      x.innerHTML=`<div class="pt">تجاوزت علامة وقف الورد</div><div class="pb">توقفت عند سورة ${vRef(lv).replace(/ (\S+)$/,'، آية $1')} · صفحة ${ar(QDATA.vp[lv])}</div>
+        <div class="row"><button class="hbtn" data-p="go">انتقل لها</button><button class="hbtn alt" data-p="set">اجعلها وقف الورد</button></div>`;
       x.querySelector('[data-p=go]').onclick=()=>{closeHome();goVerse(lv)};
-      x.querySelector('[data-p=set]').onclick=()=>{lastRead=lv;lastReadT=Date.now();store.set('mushaf-lr',lv);store.set('mushaf-lrt',lastReadT);syncLrB();if(wird)syncWirdLr(true);markSel();renderHome();toast('آخر قراءة: '+vRef(lv))};
+      x.querySelector('[data-p=set]').onclick=()=>{lastRead=lv;lastReadT=Date.now();store.set('mushaf-lr',lv);store.set('mushaf-lrt',lastReadT);syncLrB();if(wird)syncWirdLr(true);markSel();renderHome();toast('وقف الورد: '+vRef(lv))};
       c.insertBefore(x,c.querySelector('.hbtn'))}
     loadText().then(T=>{const q=c.querySelector('.lrq');if(q)q.textContent='﴿'+T.u[cp.v]+'﴾'}).catch(()=>{})}
   if(homeCards.wird){
@@ -1749,6 +1827,8 @@ $('hSet').onclick=()=>{closeHome();syncOpts();$('opts').hidden=false;setOpTab('t
 function syncHomeOpts(){$('homeT').checked=homeOn;document.querySelectorAll('#wsCh button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.ws===weekStart));const C=$('homeCards');C.replaceChildren();
   HCARDS.forEach(([k,nm])=>{const b=document.createElement('button');b.textContent=nm;b.setAttribute('aria-pressed',!!homeCards[k]);
     b.onclick=()=>{homeCards[k]=homeCards[k]?0:1;store.set('mushaf-homecards',JSON.stringify(homeCards));b.setAttribute('aria-pressed',!!homeCards[k])};C.appendChild(b)})}
+$('boldT').checked=boldPg;$('boldT').onchange=e=>{boldPg=e.target.checked;store.set('mushaf-bold',boldPg?'1':'0');show(cur,true)};
+$('fillT').checked=fillPg;$('fillT').onchange=e=>{fillPg=e.target.checked;store.set('mushaf-fill',fillPg?'1':'0');show(cur,true)};
 $('zlT').checked=zLock;$('zlT').onchange=e=>setZLock(e.target.checked);
 $('zmT').checked=zMsgOn;$('zmT').onchange=e=>{zMsgOn=e.target.checked;store.set('mushaf-zmsg',zMsgOn?'1':'0');toast(zMsgOn?'ستظهر رسالة التنبيه عند القفل':'لن تظهر رسالة التنبيه عند القفل')};
 $('homeT').onchange=e=>{homeOn=e.target.checked;store.set('mushaf-home',homeOn?'1':'0');toast(homeOn?'ستظهر شاشة البداية عند فتح التطبيق':'لن تظهر شاشة البداية عند فتح التطبيق')};
@@ -1980,17 +2060,160 @@ document.querySelectorAll('.wtabs button').forEach(b=>b.onclick=()=>setWTab(b.da
 window.openTd=()=>{$('wirdB').onclick();setWTab('t')};
 const homeRefresh=()=>{try{if(!$('home').hidden)renderHome()}catch(e){}};
 window.tdReady=1;
+// ---- coloured stop marks: one per colour, separate from the wird stop and from bookmarks ----
+const ST_COLORS=[['red','#c0392b','الأحمر'],['blue','#2e6fb7','الأزرق'],['orange','#d9822b','البرتقالي'],['purple','#7e57c2','البنفسجي'],['teal','#138d90','الفيروزي'],['pink','#c2185b','الوردي']];
+let stops={};try{stops=JSON.parse(store.get('mushaf-stops')||'{}')||{}}catch(e){}
+const saveStops=()=>store.set('mushaf-stops',JSON.stringify(stops));
+let stTarget=-1; // verse chosen from the verse menu, or -1 for "the top of the screen"
+function topVerse(){const vr=view.getBoundingClientRect();let best=null,bd=1e9;
+  stage.querySelectorAll('span[data-v]').forEach(x=>{const r=x.getBoundingClientRect();if(!r.width||r.bottom<vr.top+4||r.top>vr.bottom)return;const d=Math.max(0,r.top-vr.top);if(d<bd){bd=d;best=x}});
+  return best?+best.dataset.v:(QDATA.vp.indexOf(cur))}
+let stEdit=null,stMove=false; // colour whose name is being typed; stMove: also move it to the target verse
+function renderStops(){const L=$('stL');L.replaceChildren();
+  const tv=stTarget>=0?stTarget:topVerse();
+  $('stHint').textContent=stTarget>=0?'ضع علامة على الآية المحددة: '+vRef(tv):'«ضع هنا» يضع العلامة على أول آية ظاهرة في الشاشة: '+vRef(tv)+'. ولوضعها على آية بعينها: اضغط عليها مطوّلًا واختر «وقف ملوّن».';
+  ST_COLORS.forEach(([c,hex,nm])=>{const m=stops[c],r=document.createElement('div');r.className='str';
+    const named=m&&m.n;
+    r.innerHTML=`<span class="dot"><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z" fill="${hex}"/></svg></span>
+      <span class="lab"><b class="stn"></b><small></small></span>
+      <span class="sta">${m?`<button data-a="go" class="pri">اذهب</button><button data-a="ren">${named?'✎ تعديل الاسم':'+ اسم'}</button><button data-a="del" aria-label="حذف">✕</button>`:'<button data-a="set">ضع هنا</button>'}</span>`;
+    r.querySelector('.stn').textContent=m?(named?m.n:'الوقف '+nm):'الوقف '+nm;
+    r.querySelector('small').textContent=m?vRef(m.v)+' · صفحة '+ar(QDATA.vp[m.v]):'غير مستعملة';
+    if(stEdit===c){const f=document.createElement('div');f.className='stf';
+      f.innerHTML=`<input type="text" id="stIn" maxlength="40" placeholder="اسم اختياري، مثل: حفظ سورة الكهف"><button class="pri" id="stOk">حفظ</button><button id="stNo">إلغاء</button>`;
+      r.appendChild(f);f.querySelector('#stIn').value=m&&m.n||'';setTimeout(()=>{try{$('stIn').focus()}catch(e){}},30);
+      const ok=()=>{const n=$('stIn').value.trim();if(!m)return;
+        stops[c]={v:m.v,t:m.t};if(n)stops[c].n=n;saveStops();stEdit=null;stMove=false;
+        toast(n?'سُمّي الوقف '+nm+': '+n:'أُزيل اسم الوقف '+nm)
+        markSel();if(!$('stS').hidden)renderStops()};
+      f.querySelector('#stOk').onclick=ok;f.querySelector('#stIn').onkeydown=e=>{if(e.key==='Enter')ok()};
+      f.querySelector('#stNo').onclick=()=>{stEdit=null;stMove=false;renderStops()}}
+    r.querySelectorAll('.sta button').forEach(b=>b.onclick=()=>{const a=b.dataset.a;
+      if(a==='go'){$('stS').hidden=true;stTarget=-1;openVerse(m.v);toast(m.n||('الوقف '+nm));return}
+      if(a==='del'){delete stops[c];saveStops();markSel();renderStops();toast('حُذف '+(m.n||'الوقف '+nm));return}
+      if(a==='ren'){stEdit=c;stMove=false;renderStops();return}
+      // placing a new mark: the name is optional and can be added later with "+ اسم"
+      const v=stTarget>=0?stTarget:topVerse();if(v<0)return;stops[c]={v,t:Date.now()};saveStops();
+      $('stS').hidden=true;stTarget=-1;clearSel();markSel();toast('الوقف '+nm+': '+vRef(v)+' · يمكنك إضافة اسم له من القائمة')});
+    L.appendChild(r)})}
+function openStops(v){stTarget=v>=0?v:-1;renderStops();$('stS').hidden=false}
+$('stB').onclick=()=>openStops(-1);
+$('aSt').onclick=()=>{const v=selV;if(v<0)return;$('act').hidden=true;openStops(v)};
+$('stX').onclick=()=>{$('stS').hidden=true;stTarget=-1};
+$('stS').onclick=e=>{if(e.target.id==='stS'){$('stS').hidden=true;stTarget=-1}};
+// ---- wird balance at the top: -N still to read today, 0 done, +N read beyond today's target ----
+function wirdBal(){if(!wird||!wird.sday)return null;wirdRoll();const el=Math.max(0,dayNum(today())-dayNum(wird.sday));
+  const tgt=Math.min(604,wird.base+wird.per*(el+1));return wird.pos-tgt}
+function syncBal(){const B=$('wBal');const n=wirdBal();if(n===null||wird.pos>=604){B.hidden=true;try{fitMeta()}catch(e){}return}
+  B.hidden=false;B.textContent=n>0?'+'+n:String(n);B.className='wbal '+(n<0?'neg':'ok');
+  B.title=n<0?'باقي من ورد اليوم '+ar(-n)+' صفحة':n===0?'تم الورد':'زيادة '+ar(n)+' صفحة على ورد اليوم';try{fitMeta()}catch(e){}}
+$('wBal').onclick=()=>{$('wirdB').click();setWTab('r')};
+{const o=saveWird;window.__sw=o}
+syncBal();setInterval(syncBal,60000);
+
+// ---- offline: all mushaf pages, and the whole Quran for one reciter ----
+const wakeOn=on=>{try{if(window.AndroidBridge&&AndroidBridge.keepScreenOn)AndroidBridge.keepScreenOn(on||store.get('mushaf-wake')==='1')}catch(e){}};
+const webOffline=()=>!NA()&&typeof audioFetch==='function'&&'serviceWorker' in navigator&&!!navigator.serviceWorker.controller;
+let fd={run:false,job:0};
+function syncFd(){const ok=store.get('mushaf-fontsok')==='1';
+  $('fdB').textContent=fd.run?'إيقاف التنزيل':ok?'صفحات المصحف محفوظة ✓ · تحقّق مرة أخرى':'تنزيل صفحات المصحف كلها';$('fdB').classList.toggle('alt',fd.run||ok);
+  if(!NA()&&!webOffline()){$('fdB').disabled=true;$('fdB').style.opacity=.5;$('fdH').textContent='تنزيل الصفحات متاح في تطبيق الجوال، وفي موقع المصحف على GitHub.'}}
+async function fontsDownload(){
+  if(fd.run){fd.run=false;fd.job++;wakeOn(false);syncFd();return}
+  const job=++fd.job;fd.run=true;wakeOn(true);syncFd();$('fdP').hidden=false;
+  const urls=NA()?Array.from({length:604},(_,i)=>'f/p'+String(i+1).padStart(3,'0')+'.woff2'):['qf/idx.json',...Array.from({length:31},(_,k)=>'qf/q'+String(k).padStart(2,'0')+'.woff2')];
+  let i=0,done=0,fails=0;
+  const step=()=>{$('fdBar').style.width=(100*done/urls.length)+'%';$('fdT').textContent=NA()?`${ar(done)} / ${ar(urls.length)}`:ar(Math.round(100*done/urls.length))+'٪'};step();
+  const worker=async()=>{while(i<urls.length&&fd.job===job){const u=urls[i++];let ok=false;
+    for(let t=0;t<2&&!ok&&fd.job===job;t++){try{const r=await fetch(u);if(r.ok){await r.arrayBuffer();ok=true}}catch(e){}}
+    if(!ok)fails++;done++;if(fd.job===job)step()}};
+  await Promise.all([worker(),worker(),worker()]);
+  if(fd.job!==job)return;fd.run=false;wakeOn(false);
+  if(!fails)store.set('mushaf-fontsok','1');syncFd();
+  toast(fails?`تعذّر تنزيل ${ar(fails)} من الصفحات · تحقق من الاتصال واضغط مرة أخرى لإكمالها`:'حُفظت صفحات المصحف كلها · تقرأ الآن دون إنترنت',4500)}
+$('fdB').onclick=fontsDownload;
+// whole Quran for the chosen reciter: surah after surah, resuming where it stopped
+let da={run:false,job:0,s:0,rc:''};const daJobs=new Set();
+const daKey=rc=>'mushaf-dlall-'+rc;
+const daDone=rc=>+(store.get(daKey(rc))||0);
+function syncDa(){const n=daDone(au.rc),nm=rcName(au.rc);
+  $('daB').textContent=da.run?'إيقاف تنزيل القرآن':n>=114?`القرآن كاملًا محفوظ بصوت ${nm} ✓`:n?`متابعة تنزيل القرآن بصوت ${nm} (${ar(n)} / ١١٤)`:`تنزيل القرآن كاملًا بصوت ${nm}`;
+  $('daH').textContent=n>=114&&!da.run?'كل السور محفوظة في جهازك لهذا القارئ.':'١١٤ سورة، نحو ٥٠٠ إلى ٩٠٠ ميغابايت حسب القارئ. يُفضَّل الاتصال بشبكة Wi-Fi وإبقاء البرنامج مفتوحًا، ويمكنك الإيقاف والمتابعة لاحقًا من حيث توقفت.';
+  if(!NA()&&!webOffline()){$('daB').disabled=true;$('daB').style.opacity=.5;$('daH').textContent='تنزيل التلاوات متاح في تطبيق الجوال، وفي موقع المصحف على GitHub.'}}
+function daStep(){$('daBar').style.width=(100*(da.s-1)/114)+'%';$('daT').textContent=`${ar(da.s-1)} / ١١٤ · سورة ${S[Math.min(114,da.s)-1][0]}`}
+async function daNext(){
+  if(!da.run)return;
+  if(da.s>114){da.run=false;wakeOn(false);$('daBar').style.width='100%';$('daT').textContent='١١٤ / ١١٤';syncDa();toast(`حُفظ القرآن كاملًا بصوت ${rcName(da.rc)}`,4500);return}
+  daStep();
+  if(NA()){da.job=++dl.job;daJobs.add(da.job);AndroidBridge.audioDownload(da.rc,da.s,S[da.s-1][2],da.job);return}
+  const urls=[];if(da.s!==1&&da.s!==9)urls.push(aurl(da.rc,'001001.mp3'));for(let a=1;a<=S[da.s-1][2];a++)urls.push(aurl(da.rc,pad3(da.s)+pad3(a)+'.mp3'));
+  const job=da.job;let i=0,fails=0;
+  const w=async()=>{while(i<urls.length&&da.run&&da.job===job){const u=urls[i++];try{await audioFetch(u)}catch(e){fails++}}};
+  await Promise.all([w(),w(),w(),w()]);if(!da.run||da.job!==job)return;
+  daSurahDone(fails)}
+function daSurahDone(fails){if(fails){da.run=false;wakeOn(false);syncDa();toast(`توقّف التنزيل عند سورة ${S[da.s-1][0]} · تحقق من الاتصال ثم اضغط متابعة`,4500);return}
+  store.set(daKey(da.rc),String(da.s));da.s++;daNext()}
+$('daB').onclick=()=>{
+  if(da.run){da.run=false;da.job++;try{if(NA())AndroidBridge.audioCancel()}catch(e){}wakeOn(false);syncDa();return}
+  if(dl.run){toast('انتظر حتى ينتهي تنزيل السورة الحالية');return}
+  const n=daDone(au.rc);if(n>=114){toast('القرآن كاملًا محفوظ لهذا القارئ');return}
+  da={run:true,job:++dl.job,s:n+1,rc:au.rc};wakeOn(true);$('daP').hidden=false;syncDa();daNext()};
+{const prev=window.onNativeDl;window.onNativeDl=(job,done,total,fails)=>{
+  if(daJobs.has(job)){if(!da.run||job!==da.job)return;const f=(da.s-1+done/Math.max(1,total))/114;$('daBar').style.width=(100*f)+'%';
+    if(done>=total)daSurahDone(fails);return}
+  prev&&prev(job,done,total,fails)}}
+
+// ---- full backup: every saved setting and record of the app in one file ----
+const BK_SKIP=new Set(['mushaf-sess','mushaf-immtip']);
+function backupJSON(){const data={};
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('mushaf-')&&!BK_SKIP.has(k))data[k]=localStorage.getItem(k)}}catch(e){}
+  return JSON.stringify({app:'mushaf',type:'backup',version:1,appVersion:window.APP_VERSION,exported:new Date().toISOString(),count:Object.keys(data).length,data},null,1)}
+function isBackup(t){try{const d=JSON.parse(t);return !!(d&&d.app==='mushaf'&&d.type==='backup'&&d.data&&typeof d.data==='object')}catch(e){return false}}
+function saveBackup(){const j=backupJSON(),name='نسخة-المصحف-'+today()+'.json';
+  if(hasFiles()){AndroidBridge.saveFile(name,j);return}
+  try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([j],{type:'application/json'}));a.download=name;document.body.appendChild(a);a.click();a.remove()}catch(e){}
+  openXfer('export',j)}
+let bkPending=null;
+function askRestore(t){let d;try{d=JSON.parse(t)}catch(e){toast('تعذّرت قراءة الملف');return}
+  const D=d.data,J=k=>{try{return JSON.parse(D[k]||'null')}catch(e){return null}};
+  const nN=Object.keys(J('mushaf-notes')||{}).length,nB=(J('mushaf-bm')||[]).length||Object.keys(J('mushaf-bm')||{}).length,nT=(J('mushaf-tdn')||[]).length;
+  const w=J('mushaf-wird'),lk=J('mushaf-lk'),td=J('mushaf-td');
+  const when=d.exported?new Date(d.exported).toLocaleDateString('ar-SA-u-ca-gregory',{day:'numeric',month:'long',year:'numeric'}):'';
+  const rows=[['تاريخ النسخة',when+(d.appVersion?' · الإصدار '+ar(d.appVersion).replace('.','٫'):'')],['الملاحظات',ar(nN)],['العلامات',ar(nB)],
+    ['الورد اليومي',w&&w.sday?'موجود · بعد صفحة '+ar(w.pos):'لا يوجد'],['ختمة الاستماع',lk?'موجودة':'لا توجد'],
+    ['ختمة التدبّر',(td?'موجودة':'لا توجد')+' · '+ar(nT)+' ملاحظة تدبّر'],['وقف الورد',D['mushaf-lr']&&+D['mushaf-lr']>=0?'موجودة':'لا توجد']];
+  $('bkInfo').innerHTML='<div class="bkt">'+rows.map(([a,b])=>`<div><span>${a}</span><b>${b}</b></div>`).join('')+'</div>';
+  bkPending=D;$('opts').hidden=true;$('bk').hidden=false}
+function doRestore(){const D=bkPending;if(!D)return;
+  try{const old=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('mushaf-')&&k!=='mushaf-guide')old.push(k)}
+    old.forEach(k=>localStorage.removeItem(k));
+    Object.entries(D).forEach(([k,v])=>{if(k.startsWith('mushaf-')&&typeof v==='string')localStorage.setItem(k,v)});
+    localStorage.setItem('mushaf-guide','1');localStorage.setItem('mushaf-restored','1')}catch(e){toast('تعذّرت الاستعادة');return}
+  location.reload()}
+$('bkSave').onclick=saveBackup;
+$('bkLoad').onclick=()=>{if(window.AndroidBridge&&AndroidBridge.openFile){AndroidBridge.openFile();return}openXfer('import','')};
+$('bkGo').onclick=doRestore;$('bkNo').onclick=$('bkX').onclick=()=>{bkPending=null;$('bk').hidden=true};
+if(store.get('mushaf-restored')==='1'){try{localStorage.removeItem('mushaf-restored')}catch(e){}
+  setTimeout(()=>{try{applyRem()}catch(e){}pushWidget();toast('استُعيدت النسخة الاحتياطية',3500)},600)}
+
+// a tap on the home-screen widget opens the mushaf at today's wird
+window.onWidgetTap=()=>{try{if(!$('gd').hidden&&store.get('mushaf-guide')==='1')$('gd').hidden=true;
+  ['wird','audS','opts','sheet','tf'].forEach(id=>{if($(id))$(id).hidden=true});if(!$('home').hidden)closeHome();
+  if(wird)wirdNextGo();else{$('wirdB').click();setWTab('r')}}catch(e){}};
+try{if(window.AndroidBridge&&AndroidBridge.widgetTap&&AndroidBridge.widgetTap()==='1')setTimeout(()=>onWidgetTap(),350)}catch(e){}
+try{if(wird)wirdRoll()}catch(e){}pushWidget();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)pushWidget()});
 // ---- user guide: shown once on first launch, reopened from Settings > Tools or the start screen ----
 const GUIDE=[
  ['home','شاشة البداية',`<p>عند فتح البرنامج تظهر بطاقات تساعدك على البدء:</p><ul><li><b>أكمل وردك</b>: يأخذك إلى الموضع الذي توقفت عنده.</li><li><b>ورد اليوم</b> و<b>آية اليوم</b> و<b>ختمة الاستماع</b> و<b>ختمة التدبّر</b>.</li><li>زر الإعدادات أعلى الشاشة لاختيار البطاقات، أو إخفاء الشاشة كلها.</li></ul>`],
- ['read','القراءة والتنقّل',`<ul><li><b>اسحب يمينًا أو يسارًا</b> لتقليب الصفحات، ويمكنك جعلها تمريرًا للأعلى من الخيارات.</li><li>في الأعلى: اسم السورة والجزء والحزب ورقم الصفحة، ثم أزرار <b>آخر قراءة</b> و<b>البحث</b> و<b>علامة الصفحة</b>.</li><li>في الأسفل: <b>الفهرس</b> للسور والأجزاء، و<b>الاستماع</b>، و<b>الورد</b>، و<b>الخيارات</b>، وشريط التكبير.</li></ul>`],
- ['act','اضغط مطوّلًا على أي آية',`<p>تُحدَّد الآية وتظهر قائمة فيها:</p><ul><li><b>استماع</b> من هذه الآية، و<b>تفسير</b> (المختصر والسعدي وابن كثير وغيرها).</li><li><b>نسخ</b> و<b>مشاركة</b> نص الآية.</li><li><b>ملاحظة</b> تكتبها على الآية، و<b>علامة</b> تحفظها في علاماتك.</li><li><b>آخر قراءة</b>: لتعرف أين توقفت، و<b>تدبّر</b> إذا بدأت ختمة تدبّر.</li></ul>`],
- ['wird','الورد اليومي وعلامة آخر قراءة',`<ul><li>من زر <b>الورد</b> حدّد عدد الصفحات يوميًا أو مدة الختمة، ويذكّرك البرنامج كل يوم.</li><li>تُحسب الصفحة مقروءة عندما تنتقل منها إلى التالية بعد قراءتها.</li><li>ضع <b>علامة آخر قراءة</b> على الآية التي توقفت عندها، فتُحسب كل الصفحات قبلها فورًا. وهذا مفيد إذا قرأت من مصحف ورقي.</li></ul>`],
- ['aud','الاستماع',`<ul><li>اختر القارئ من أكثر من ٤٠ قارئًا. <b>اضغط مطوّلًا</b> على القارئ لإضافته إلى <b>المفضّلين</b> في أعلى القائمة (حتى ٤).</li><li>غيّر <b>سرعة التلاوة</b>، وكرّر الآية أو المقطع للحفظ.</li><li>تتحرك الصفحة مع القارئ لتبقى الآية أمامك، وتستمر التلاوة والشاشة مقفلة.</li><li>نزّل السورة لتسمعها بدون إنترنت.</li></ul>`],
+ ['read','القراءة والتنقّل',`<ul><li><b>اسحب يمينًا أو يسارًا</b> لتقليب الصفحات، ويمكنك جعلها تمريرًا للأعلى من الخيارات.</li><li>في الأعلى: اسم السورة والجزء والحزب ورقم الصفحة، ثم أزرار <b>وقف الورد</b> و<b>البحث</b> و<b>علامة الصفحة</b>.</li><li>في الأسفل: <b>الفهرس</b> للسور والأجزاء، و<b>الاستماع</b>، و<b>الورد</b>، و<b>الخيارات</b>، وشريط التكبير.</li></ul>`],
+ ['act','اضغط مطوّلًا على أي آية',`<p>تُحدَّد الآية وتظهر قائمة فيها:</p><ul><li><b>استماع</b> من هذه الآية، و<b>تفسير</b> (المختصر والسعدي وابن كثير وغيرها).</li><li><b>نسخ</b> و<b>مشاركة</b> نص الآية.</li><li><b>ملاحظة</b> تكتبها على الآية، و<b>علامة</b> تحفظها في علاماتك.</li><li><b>وقف الورد</b>: لتعرف أين توقفت في وردك، و<b>وقف ملوّن</b> لقراءة مستقلة كسورة تحفظها، و<b>تدبّر</b> إذا بدأت ختمة تدبّر.</li></ul>`],
+ ['wird','الورد اليومي وعلامة وقف الورد',`<ul><li>من زر <b>الورد</b> حدّد عدد الصفحات يوميًا أو مدة الختمة، ويذكّرك البرنامج كل يوم.</li><li>تُحسب الصفحة مقروءة عندما تنتقل منها إلى التالية بعد قراءتها.</li><li>ضع <b>علامة وقف الورد</b> على الآية التي توقفت عندها، فتُحسب كل الصفحات قبلها فورًا. وهذا مفيد إذا قرأت من مصحف ورقي.</li><li><b>أدوات الشاشة الرئيسية (ودجت)</b>: اضغط مطوّلًا على مكان فارغ في شاشة الهاتف ← الأدوات (Widgets) ← المصحف الشريف، واختر منها: ورد اليوم، أو عدّاد الورد، أو آية وتذكير، أو تقدّم الختمة. ويظهر فيها رصيد وردك: ‎-4 للباقي، و0 إذا تم الورد، و‎+6 للزيادة. والضغط على أيٍّ منها يفتح المصحف على وردك.</li><li><b>رصيد الورد</b> يظهر أيضًا أعلى الصفحة بجانب الأزرار بالطريقة نفسها، والضغط عليه يفتح الورد.</li><li><b>علامات الوقف الملوّنة</b>: زر الشريطين أعلى الصفحة، ستة ألوان لكل لون علامة مستقلة عن وقف الورد.</li></ul>`],
+ ['aud','الاستماع',`<ul><li>اختر القارئ من أكثر من ٤٠ قارئًا. <b>اضغط مطوّلًا</b> على القارئ لإضافته إلى <b>المفضّلين</b> في أعلى القائمة (حتى ٤).</li><li>غيّر <b>سرعة التلاوة</b>، وكرّر الآية أو المقطع للحفظ.</li><li>تتحرك الصفحة مع القارئ لتبقى الآية أمامك، وتستمر التلاوة والشاشة مقفلة.</li><li>نزّل السورة، أو <b>القرآن كاملًا</b> بصوت قارئك، لتسمعه بدون إنترنت.</li></ul>`],
  ['lk','ختمة الاستماع',`<p>في نافذة الاستماع: ختمة مستقلة تسمع فيها القرآن من الفاتحة إلى الناس.</p><ul><li>يُحفظ موضعها وحدها، فلا يتأثر بسماعك أي آية من مكان آخر.</li><li>تعرض نسبة الإنجاز وما استمعت إليه اليوم، ولها بطاقة في شاشة البداية.</li></ul>`],
  ['td','ختمة التدبّر',`<ul><li>من نافذة <b>الورد</b> اختر تبويب <b>ختمة التدبّر</b>، وحدّد مدتها: شهر أو شهران أو أكثر أو سنة.</li><li>اقرأ بتمهّل، واضغط مطوّلًا على الآية واختر <b>تدبّر</b> لتكتب ما استوقفك.</li><li>تُحفظ ملاحظات كل ختمة وحدها لتقارن بين ختماتك، ويمكنك تصديرها مع ملاحظاتك.</li></ul>`],
  ['zoom','التكبير وقفله',`<ul><li>كبّر الخط بزرّي <b>−</b> و<b>+</b> في الشريط السفلي، أو بإصبعين على الصفحة.</li><li><b>اضغط مطوّلًا على الشريط</b> لقفل التكبير ومنع التكبير غير المقصود، فيظهر رمز القفل. واضغط مطوّلًا مرة أخرى لفتحه.</li></ul>`],
- ['opts','الخيارات',`<ul><li><b>القراءة</b>: تقليب جانبي أو تمرير للأعلى، والتمرير التلقائي.</li><li><b>المظهر</b>: ألوان الصفحة والوضع الليلي وحجم الواجهة.</li><li><b>الخطوط</b>: خط المصحف وحجم التكبير.</li><li><b>أدوات</b>: التذكير بالورد، وشاشة البداية، ونسخة احتياطية للملاحظات، و<b>هذا الدليل</b> متى احتجته.</li></ul>`]];
+ ['opts','الخيارات',`<ul><li><b>القراءة</b>: تقليب جانبي أو تمرير للأعلى، والتمرير التلقائي.</li><li><b>المظهر</b>: ألوان الصفحة والوضع الليلي وحجم الواجهة.</li><li><b>الخطوط</b>: خط المصحف وحجم التكبير.</li><li><b>أدوات</b>: التذكير بالورد، و<b>تنزيل صفحات المصحف</b> للقراءة بدون إنترنت، وشاشة البداية، و<b>النسخة الاحتياطية الكاملة</b> لكل بياناتك، و<b>هذا الدليل</b> متى احتجته.</li></ul>`]];
 let gdI=0;
 function gdShow(i){gdI=Math.max(0,Math.min(GUIDE.length-1,i));const[img,t,x]=GUIDE[gdI];
   const I=$('gdImg');I.src='help/'+img+'.webp';I.alt=t;I.parentElement.classList.toggle('strip',img==='zoom');
@@ -2016,7 +2239,7 @@ function handleBack(){
   if(!$('gd').hidden){closeGuide();return 1}
   if(!$('tdn').hidden){$('tdn').hidden=true;return 1}
   if(!$('home').hidden){closeHome();return 1}
-  for(const id of ['use','cred','xfer','note','audS','wird','tf','sheet','opts'])if(!$(id).hidden){$(id).hidden=true;return 1}
+  for(const id of ['bk','use','cred','xfer','note','audS','wird','tf','sheet','opts'])if(!$(id).hidden){$(id).hidden=true;return 1}
   if(as.on){asStop();return 1}
   if(imm){toggleImm(false);return 1}
   if(!$('act').hidden){clearSel();return 1}
@@ -2026,7 +2249,8 @@ window.handleBack=handleBack;
 const _syncOpts=syncOpts;syncOpts=function(){_syncOpts();$('hzT').checked=hifz;$('wakeT').checked=wake};
 setHifz(hifz); if(wake)applyWake(); if(wird){wirdRoll();applyRem()}
 
-let rt,lw=innerWidth;addEventListener('resize',()=>{if(innerWidth===lw&&mode==='v')return;lw=innerWidth;clearTimeout(rt);rt=setTimeout(()=>show(cur,true),150)});
+noteVH();
+let rt,lw=innerWidth;addEventListener('resize',()=>{noteVH();if(innerWidth===lw&&mode==='v'){requestAnimationFrame(vFill);return}lw=innerWidth;clearTimeout(rt);rt=setTimeout(()=>show(cur,true),150)});
 $('zv').textContent=Math.round(zoom*100)+'%';
 // bring the start of an ayah to the top of the screen
 function verseToTop(v){const sp=stage.querySelector(`span[data-v="${v}"]`);if(!sp)return;
@@ -2036,8 +2260,8 @@ function verseToTop(v){const sp=stage.querySelector(`span[data-v="${v}"]`);if(!s
   view.scrollTop+=want;if(mode==='v')recAnchor()}
 function goLastRead(){if(lastRead<0)return;$('cont').hidden=true;const v=lastRead,pg=QDATA.vp[v];
   show(pg).then(()=>{verseToTop(v);setTimeout(()=>verseToTop(v),250)})}
-function syncLrB(){$('lrB').hidden=lastRead<0;fitMeta();if(lastRead>=0)$('lrB').title='آخر قراءة: '+vRef(lastRead)}
-$('lrB').onclick=()=>{goLastRead();if(lastRead>=0)toast('آخر قراءة: '+vRef(lastRead))};
+function syncLrB(){$('lrB').hidden=lastRead<0;fitMeta();if(lastRead>=0)$('lrB').title='وقف الورد: '+vRef(lastRead)}
+$('lrB').onclick=()=>{goLastRead();if(lastRead>=0)toast('وقف الورد: '+vRef(lastRead))};
 syncLrB();
 $('contGo').onclick=goLastRead; $('contX').onclick=()=>{$('cont').hidden=true};
 show(cur);
