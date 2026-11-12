@@ -16,7 +16,7 @@
 :root[data-theme="green"]{--bg:#cbdccd; --paper:#e2eee3; --ink:#1a2a1f; --muted:#56695b; --frame:#25664a; --gold:#937537; --line:#b6cdbb; --chrome:#d8e7da; --hl:rgba(147,117,55,.28); --tint:rgba(37,102,74,.09); --lr:rgba(37,102,74,.14); --pl:rgba(37,102,74,.22)}
 :root[data-theme="black"]{--bg:#000; --paper:#000; --ink:#d8d2c3; --muted:#86817a; --frame:#5fb391; --gold:#c9a55a; --line:#222; --chrome:#0a0a0a; --hl:rgba(201,165,90,.28); --tint:rgba(95,179,145,.10); --lr:rgba(95,179,145,.16); --pl:rgba(95,179,145,.26); color-scheme:dark}
 :root[data-theme="dark"]{--bg:#12140f; --paper:#1c1e18; --ink:#ece6d6; --muted:#9a9483; --frame:#4fa286; --gold:#c9a55a; --line:#33352c; --chrome:#181a14; --hl:rgba(214,172,80,.30); --tint:rgba(79,162,134,.12); --lr:rgba(79,162,134,.20); --pl:rgba(79,162,134,.30); color-scheme:dark}
-html,body{height:100%}
+html,body{height:100%;overscroll-behavior:none}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);direction:rtl;display:flex;flex-direction:column;overflow:hidden;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
@@ -453,6 +453,10 @@ body.ui-l .nv span{white-space:nowrap}
         <label class="sw"><span><b>قفل التكبير</b><small>يمنع تكبير الصفحة أو تصغيرها دون قصد، بالأصابع أو بأزرار − و+ أسفل الشاشة. ولقفله أو فتحه بسرعة: اضغط مطولًا على شريط التكبير أسفل الشاشة.</small></span><input type="checkbox" id="zlT"><i></i></label>
         <label class="sw"><span><b>رسالة التنبيه عند القفل</b><small>تظهر ٥ ثوانٍ حين تحاول التكبير والقفل مفعّل، لتذكّرك بطريقة فتحه. أطفئها لإخفائها.</small></span><input type="checkbox" id="zmT"><i></i></label>
       </div>
+      <div class="og" id="wsG" hidden><div class="ol">خط الودجت</div>
+        <small class="hint">لكل ودجت على الشاشة الرئيسية خطها وحجمه وسماكته ولون رقمها. تظهر هذه الإعدادات أيضًا عند إضافة ودجت جديدة.</small>
+        <button class="wide" id="wsB">تغيير خط الودجت</button>
+      </div>
       <div class="og"><div class="ol">خط التفسير والنصوص</div>
         <small class="hint">للتفسير ومعاني الكلمات والملاحظات وأسماء السور.</small>
         <div class="fl" id="tfList"></div>
@@ -676,7 +680,7 @@ body.ui-l .nv span{white-space:nowrap}
 </div>
 <div class="toast" id="toast"></div>
 
-<script>/*APP_VERSION*/window.APP_VERSION="1.70";/*END*/
+<script>/*APP_VERSION*/window.APP_VERSION="1.75";/*END*/
 document.querySelectorAll("[data-ver]").forEach(e=>e.textContent="الإصدار "+window.APP_VERSION.replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]).replace(".","٫"))</script>
 <script src="data.js"></script>
 <script>
@@ -955,7 +959,7 @@ view.addEventListener('touchend',e=>{
   if(t0.pinch){if(e.touches.length===0){const s=t0.s, a={x:t0.x,y:t0.y};t0=null;const p=pinchTarget();if(p)p.style.transform='';if(Math.abs(s-1)>.04)setZoom(zoom*s,a)}return}
   const c=e.changedTouches[0], dx=c.clientX-t0.x, dy=c.clientY-t0.y;
   if(lp&&lp.fired){t0=null;return}
-  if(mode==='h'&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&Date.now()-t0.t<600) go(dx>0?1:-1);
+  if(mode==='h'&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&Date.now()-t0.t<600){window._swT=Date.now();go(dx>0?1:-1)}
   t0=null;
 },{passive:true});
 
@@ -1045,7 +1049,7 @@ $('aShare').onclick=async()=>{const v=selV;if(v<0)return;const t=await verseText
   try{await copyText(t);toast('نُسخت الآية، الصقها حيث تريد')}catch(e){toast('المشاركة غير متاحة هنا')}};
 $('aLr').onclick=()=>{const v=selV;if(v<0)return;
   if(lastRead===v){lastRead=-1;toast('أُزيلت علامة وقف الورد')}else{lastRead=v;lastReadT=Date.now();toast('وقف الورد: '+vRef(v))}
-  store.set('mushaf-lr',lastRead);store.set('mushaf-lrt',lastReadT);clearSel();markSel();syncLrB();if(syncWirdLr(true)&&wird)toast('وقف الورد: '+vRef(lastRead)+' · تحدّث وردك')};
+  store.set('mushaf-lr',lastRead);store.set('mushaf-lrt',lastReadT);clearSel();markSel();syncLrB();{const r=syncWirdLr(true);if(r&&wird)toast('وقف الورد: '+vRef(lastRead)+(r==='back'?' · رجع وردك إليها':' · تحدّث وردك'))}};
 $('aBm').onclick=()=>{const v=selV;if(v<0)return;const i=bm.findIndex(b=>b.v===v);
   if(i>=0){bm.splice(i,1);toast('أُزيلت العلامة')}else{bm.unshift({p:QDATA.vp[v],v,t:Date.now()});toast('حُفظت علامة على '+vRef(v))}saveBm();clearSel()};
 
@@ -1387,7 +1391,9 @@ function wirdAdvance(p){wird.pos=Math.min(604,p);wird.log[wird.day]=(wird.log[wi
 const lrPage=()=>lastRead>=0?QDATA.vp[lastRead]:0;
 function syncWirdLr(fromMark){if(!wird||lastRead<0)return false;wirdRoll();const mp=lrPage(),p=Math.min(604,mp-1);
   if(p>wird.pos){const n=p-wird.pos;wird.log[wird.day]=(wird.log[wird.day]||0)+n;wird.pos=p;saveWird();remText();return true}
-  if(fromMark&&wird.pos===mp&&mp<604){wird.pos=mp-1;if(wird.log[wird.day]>0)wird.log[wird.day]--;saveWird();remText();return true}
+  // placing the mark EARLIER corrects a mistake: the wird goes back to the mark, and the extra pages leave today's log
+  if(fromMark&&p<wird.pos){const n=wird.pos-p;wird.log[wird.day]=Math.max(0,(wird.log[wird.day]||0)-n);wird.pos=p;
+    if((wird.dayPos??p)>p)wird.dayPos=p;saveWird();remText();if(!$('wird').hidden)renderWird();return 'back'}
   return false}
 // remember the ayah at the top of the screen while reading, to offer it when it is past the last-read marker
 let tvT=0;
@@ -2196,6 +2202,8 @@ $('bkGo').onclick=doRestore;$('bkNo').onclick=$('bkX').onclick=()=>{bkPending=nu
 if(store.get('mushaf-restored')==='1'){try{localStorage.removeItem('mushaf-restored')}catch(e){}
   setTimeout(()=>{try{applyRem()}catch(e){}pushWidget();toast('استُعيدت النسخة الاحتياطية',3500)},600)}
 
+// widget fonts (Android): one style per home-screen widget, edited natively
+try{if(window.AndroidBridge&&AndroidBridge.widgetStyle){$('wsG').hidden=false;$('wsB').onclick=()=>{try{AndroidBridge.widgetStyle()}catch(e){}}}}catch(e){}
 // a tap on the home-screen widget opens the mushaf at today's wird
 window.onWidgetTap=()=>{try{if(!$('gd').hidden&&store.get('mushaf-guide')==='1')$('gd').hidden=true;
   ['wird','audS','opts','sheet','tf'].forEach(id=>{if($(id))$(id).hidden=true});if(!$('home').hidden)closeHome();
@@ -2208,7 +2216,7 @@ const GUIDE=[
  ['home','شاشة البداية',`<p>عند فتح البرنامج تظهر بطاقات تساعدك على البدء:</p><ul><li><b>أكمل وردك</b>: يأخذك إلى الموضع الذي توقفت عنده.</li><li><b>ورد اليوم</b> و<b>آية اليوم</b> و<b>ختمة الاستماع</b> و<b>ختمة التدبّر</b>.</li><li>زر الإعدادات أعلى الشاشة لاختيار البطاقات، أو إخفاء الشاشة كلها.</li></ul>`],
  ['read','القراءة والتنقّل',`<ul><li><b>اسحب يمينًا أو يسارًا</b> لتقليب الصفحات، ويمكنك جعلها تمريرًا للأعلى من الخيارات.</li><li>في الأعلى: اسم السورة والجزء والحزب ورقم الصفحة، ثم أزرار <b>وقف الورد</b> و<b>البحث</b> و<b>علامة الصفحة</b>.</li><li>في الأسفل: <b>الفهرس</b> للسور والأجزاء، و<b>الاستماع</b>، و<b>الورد</b>، و<b>الخيارات</b>، وشريط التكبير.</li></ul>`],
  ['act','اضغط مطوّلًا على أي آية',`<p>تُحدَّد الآية وتظهر قائمة فيها:</p><ul><li><b>استماع</b> من هذه الآية، و<b>تفسير</b> (المختصر والسعدي وابن كثير وغيرها).</li><li><b>نسخ</b> و<b>مشاركة</b> نص الآية.</li><li><b>ملاحظة</b> تكتبها على الآية، و<b>علامة</b> تحفظها في علاماتك.</li><li><b>وقف الورد</b>: لتعرف أين توقفت في وردك، و<b>وقف ملوّن</b> لقراءة مستقلة كسورة تحفظها، و<b>تدبّر</b> إذا بدأت ختمة تدبّر.</li></ul>`],
- ['wird','الورد اليومي وعلامة وقف الورد',`<ul><li>من زر <b>الورد</b> حدّد عدد الصفحات يوميًا أو مدة الختمة، ويذكّرك البرنامج كل يوم.</li><li>تُحسب الصفحة مقروءة عندما تنتقل منها إلى التالية بعد قراءتها.</li><li>ضع <b>علامة وقف الورد</b> على الآية التي توقفت عندها، فتُحسب كل الصفحات قبلها فورًا. وهذا مفيد إذا قرأت من مصحف ورقي.</li><li><b>أدوات الشاشة الرئيسية (ودجت)</b>: اضغط مطوّلًا على مكان فارغ في شاشة الهاتف ← الأدوات (Widgets) ← المصحف الشريف، واختر منها: ورد اليوم، أو عدّاد الورد، أو آية وتذكير، أو تقدّم الختمة. ويظهر فيها رصيد وردك: ‎-4 للباقي، و0 إذا تم الورد، و‎+6 للزيادة. والضغط على أيٍّ منها يفتح المصحف على وردك.</li><li><b>رصيد الورد</b> يظهر أيضًا أعلى الصفحة بجانب الأزرار بالطريقة نفسها، والضغط عليه يفتح الورد.</li><li><b>علامات الوقف الملوّنة</b>: زر الشريطين أعلى الصفحة، ستة ألوان لكل لون علامة مستقلة عن وقف الورد.</li></ul>`],
+ ['wird','الورد اليومي وعلامة وقف الورد',`<ul><li>من زر <b>الورد</b> حدّد عدد الصفحات يوميًا أو مدة الختمة، ويذكّرك البرنامج كل يوم.</li><li>تُحسب الصفحة مقروءة عندما تنتقل منها إلى التالية بعد قراءتها.</li><li>ضع <b>علامة وقف الورد</b> على الآية التي توقفت عندها، فتُحسب كل الصفحات قبلها فورًا. وهذا مفيد إذا قرأت من مصحف ورقي.</li><li>إذا وضعت وقف الورد بعيدًا بالخطأ فتقدّم وردك، فانقله إلى الآية الصحيحة قبله، فيرجع وردك إليها وتُحذف الصفحات الزائدة من حساب اليوم.</li><li><b>أدوات الشاشة الرئيسية (ودجت)</b>: اضغط مطوّلًا على مكان فارغ في شاشة الهاتف ← الأدوات (Widgets) ← المصحف الشريف، واختر منها: ورد اليوم، أو عدّاد الورد، أو آية وتذكير، أو تقدّم الختمة، أو رصيد الورد (مربع بشكل الأيقونة فيه الرقم فقط). ويظهر فيها رصيد وردك: ‎-4 للباقي، و0 إذا تم الورد، و‎+6 للزيادة. والضغط على أيٍّ منها يفتح المصحف على وردك.</li><li><b>خط الودجت</b>: لكل ودجت خطها وحجمه وسماكته ولون رقمها. تختارها عند إضافة الودجت، أو لاحقًا من الخيارات ← الخطوط ← خط الودجت.</li><li><b>رصيد الورد</b> يظهر أيضًا أعلى الصفحة بجانب الأزرار بالطريقة نفسها، والضغط عليه يفتح الورد.</li><li><b>علامات الوقف الملوّنة</b>: زر الشريطين أعلى الصفحة، ستة ألوان لكل لون علامة مستقلة عن وقف الورد.</li></ul>`],
  ['aud','الاستماع',`<ul><li>اختر القارئ من أكثر من ٤٠ قارئًا. <b>اضغط مطوّلًا</b> على القارئ لإضافته إلى <b>المفضّلين</b> في أعلى القائمة (حتى ٤).</li><li>غيّر <b>سرعة التلاوة</b>، وكرّر الآية أو المقطع للحفظ.</li><li>تتحرك الصفحة مع القارئ لتبقى الآية أمامك، وتستمر التلاوة والشاشة مقفلة.</li><li>نزّل السورة، أو <b>القرآن كاملًا</b> بصوت قارئك، لتسمعه بدون إنترنت.</li></ul>`],
  ['lk','ختمة الاستماع',`<p>في نافذة الاستماع: ختمة مستقلة تسمع فيها القرآن من الفاتحة إلى الناس.</p><ul><li>يُحفظ موضعها وحدها، فلا يتأثر بسماعك أي آية من مكان آخر.</li><li>تعرض نسبة الإنجاز وما استمعت إليه اليوم، ولها بطاقة في شاشة البداية.</li></ul>`],
  ['td','ختمة التدبّر',`<ul><li>من نافذة <b>الورد</b> اختر تبويب <b>ختمة التدبّر</b>، وحدّد مدتها: شهر أو شهران أو أكثر أو سنة.</li><li>اقرأ بتمهّل، واضغط مطوّلًا على الآية واختر <b>تدبّر</b> لتكتب ما استوقفك.</li><li>تُحفظ ملاحظات كل ختمة وحدها لتقارن بين ختماتك، ويمكنك تصديرها مع ملاحظاتك.</li></ul>`],
@@ -2246,6 +2254,17 @@ function handleBack(){
   return 0;
 }
 window.handleBack=handleBack;
+// web (iPhone Safari): a sideways swipe from the screen edge is the browser's "back" gesture and left the site.
+// Block it at the page edges, and keep one guard entry in history so "back" stays inside the mushaf.
+if(!NA()){let edgeT=0,edgeDir=0,guard=false;
+  const arm=()=>{if(guard)return;guard=true;try{history.pushState({mg:1},'',location.href)}catch(e){}};
+  document.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;const x=e.touches[0].clientX;
+    if(x<30||x>innerWidth-30){edgeT=Date.now();edgeDir=x<30?1:-1;
+      if(mode==='h'&&e.target.closest&&e.target.closest('#view'))e.preventDefault()}},{passive:false,capture:true});
+  ['touchend','click','keydown'].forEach(ev=>addEventListener(ev,arm,{passive:true,capture:true}));
+  addEventListener('popstate',()=>{guard=false;arm();
+    if(handleBack())return;
+    if(mode==='h'&&Date.now()-edgeT<1500&&!(window._swT&&Date.now()-window._swT<800))go(edgeDir)})}
 const _syncOpts=syncOpts;syncOpts=function(){_syncOpts();$('hzT').checked=hifz;$('wakeT').checked=wake};
 setHifz(hifz); if(wake)applyWake(); if(wird){wirdRoll();applyRem()}
 
