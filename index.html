@@ -80,6 +80,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-o
 .seg button[aria-pressed="true"]{border-color:var(--frame);background:var(--tint)}
 #stage.vmode{flex-direction:column;align-items:center;justify-content:flex-start;gap:14px}
 #view{overflow-anchor:none}
+#view.hm{touch-action:pan-y}
+.flipin>.page{box-shadow:0 0 26px rgba(0,0,0,.28)!important}
 .ttl{display:flex;flex-direction:column;min-width:0}
 .ttl .meta{font-size:12px}
 #bmB[aria-pressed="true"] svg{fill:var(--gold);stroke:var(--gold)}
@@ -362,10 +364,65 @@ body.ui-l .nv span{white-space:nowrap}
 .lkp{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px}
 .lkp .lb{font-size:15px;font-weight:700;color:var(--frame)}.lkp .ls{font-size:12px;color:var(--muted);line-height:1.7}
 .lkp select{width:100%}
+/* 1.79: interface polish */
+.bar.top{position:relative}
+#hprog{position:absolute;bottom:-1px;right:0;height:2px;background:var(--gold);border-radius:2px 0 0 2px;transition:width .3s;pointer-events:none}
+.ttl{cursor:pointer}
+.bar .sname{display:flex;align-items:center;gap:4px}
+.bar .sname::after{content:"";width:.34em;height:.34em;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg) translateY(-.1em);opacity:.45;flex:none;margin-inline-start:4px}
+.hbtn:active,.wide:active,.seg button:active,.ab button:active,.nv:active,.ib:active,.fl button:active,.hql button:active,.chips button:active{opacity:.6}
+#opts .sh{height:82%}
+.opn .ol{font-size:13px;font-weight:700;color:var(--frame);display:flex;align-items:center;gap:8px}
+.opn .ol::before{content:"";width:3px;height:14px;border-radius:2px;background:var(--gold);flex:none}
+.opn .og+.og{border-top:1px solid var(--line);padding-top:14px}
+.otabs{padding-bottom:8px;border-bottom:1px solid var(--line)}
+.fl.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fl.g2 button{flex-direction:column;align-items:stretch;gap:0;padding:8px 10px;min-width:0}
+.fl.g2 button b{font-size:11px;font-weight:400;color:var(--muted)}
+.fl.g2 button span{font-size:17px;line-height:1.8}
+.fl.g2 button[aria-pressed="true"] b{font-weight:700}
+/* verse actions */
+.act{padding:8px 10px 10px;border-radius:18px}
+.ah{gap:6px;padding:0 4px 0 0}
+.ah b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ah .ib{min-width:36px;height:36px;flex:none}
+.aq{font-family:var(--f-q);font-size:17px;line-height:1.9;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px 6px;direction:rtl;min-height:1.9em}
+.ab{grid-template-columns:repeat(60,1fr);gap:6px 4px}
+.ab button{grid-column:span 12;align-self:start;line-height:1.35;font-size:11px!important;padding:7px 1px!important;color:var(--muted)}
+.ab button svg{color:var(--ink)}
+.act.six .ab button{grid-column:span 10}
+.ab button:nth-child(-n+4),.act.six .ab button:nth-child(-n+4){grid-column:span 15;background:var(--tint);color:var(--frame);font-size:12.5px!important;font-weight:600;padding:9px 2px!important}
+.ab button:nth-child(-n+4) svg{color:var(--frame)}
+/* jump-back pill */
+.cont.jb{background:var(--paper);color:var(--frame);border:1.5px solid var(--frame);padding:6px 6px 6px 14px}
+.cont.jb button:last-child{background:var(--tint);color:var(--frame)}
+/* start screen */
+.hh{align-items:center}
+.hdt{font-family:var(--f-title);font-size:22px;font-weight:700;color:var(--frame);line-height:1.5}
+.hd2.hdl{font-size:12.5px;color:var(--muted);font-weight:400;padding-top:0}
+.hcard{border-radius:18px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 6px 18px rgba(60,40,0,.06)}
+.hcard .ht{font-size:13px}
+.hcard.prim{background-image:linear-gradient(155deg,var(--frame),color-mix(in srgb,var(--frame) 74%,#000));box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.hcard.prim .ht svg{stroke:var(--gold)}
+.hpg{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(255,255,255,.85)}
+.hpg div{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;direction:rtl}
+.hpg i{display:block;height:100%;background:var(--gold);border-radius:99px}
+.hbtn{padding:12px;font-weight:600}
+.hql.top{gap:10px}
+.hql.top button{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 4px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+@media (prefers-reduced-motion:no-preference){.hc>*{animation:hin .35s ease-out both}.hc>*:nth-child(2){animation-delay:.05s}.hc>*:nth-child(3){animation-delay:.1s}.hc>*:nth-child(n+4){animation-delay:.14s}
+@keyframes hin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
+/* 1.80 */
+.wtabs{grid-template-columns:repeat(3,1fr)}.wtabs button{font-size:13px;padding:9px 2px}
+.ctc{text-align:center;font-size:12.5px;color:var(--muted);padding:6px 16px 8px}.ctc a{color:var(--frame);font-weight:600;text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.crl a{unicode-bidi:plaintext}
+@media (prefers-reduced-motion:no-preference){.tfb.sr{animation:tfsr .22s ease-out}.tfb.sl{animation:tfsl .22s ease-out}
+@keyframes tfsr{from{opacity:.2;transform:translateX(-28px)}to{opacity:1;transform:none}}@keyframes tfsl{from{opacity:.2;transform:translateX(28px)}to{opacity:1;transform:none}}}
+.seg.s4{grid-template-columns:repeat(4,1fr);gap:6px}.seg.s4 button{padding:12px 2px}.seg.s4 b{font-size:13px}
 </style></head><body>
 
-<div class="bar">
-  <div class="ttl"><div class="sname" id="sname">الفاتحة</div><div class="meta" id="meta">الجزء ١ · صفحة ١</div></div>
+<div class="bar top"><i id="hprog"></i>
+  <div class="ttl" id="ttlB" role="button" aria-label="فتح الفهرس"><div class="sname" id="sname">الفاتحة</div><div class="meta" id="meta">الجزء ١ · صفحة ١</div></div>
   <div class="gw"><div class="bver" data-ver></div>
   <div class="grp">
     <button class="wbal" id="wBal" hidden aria-label="رصيد الورد اليوم"></button>
@@ -413,14 +470,32 @@ body.ui-l .nv span{white-space:nowrap}
         <button data-mode="h"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg><b>تقليب جانبي</b><small>صفحة صفحة بالسحب يمينًا ويسارًا</small></button>
         <button data-mode="v"><svg viewBox="0 0 24 24"><path d="M7 8l5-5 5 5M7 16l5 5 5-5"/></svg><b>تمرير للأعلى</b><small>الصفحات متتابعة من أسفل إلى أعلى</small></button>
       </div>
+      <div id="fspG"><div class="ol" style="margin-top:14px">سرعة التقليب</div>
+      <div class="seg s4">
+        <button data-fsp="fast"><b>سريع</b></button>
+        <button data-fsp="mid"><b>متوسط</b></button>
+        <button data-fsp="slow"><b>بطيء</b></button>
+        <button data-fsp="vslow"><b>بطيء جدًا</b></button>
+      </div>
+      <div class="ol" style="margin-top:14px">تأثير الانتقال</div>
+      <div class="seg">
+        <button data-ffx="1"><b>مع تأثير</b><small>تدخل الصفحة الجديدة فوق الحالية وهي تتراجع للخلف</small></button>
+        <button data-ffx="0"><b>بدون تأثير</b><small>تنزلق الصفحتان معًا جنبًا إلى جنب</small></button>
+      </div></div>
       </div>
       <div class="og"><div class="ol">التمرير التلقائي</div>
       <div class="spd"><button class="ib" id="asM" aria-label="دقائق أقل (أسرع)">−</button><div><b id="asV"></b><small>دقيقة لكل صفحة</small></div><button class="ib" id="asP" aria-label="دقائق أكثر (أبطأ)">+</button></div>
       <button class="wide" id="asGo">بدء التمرير التلقائي</button>
       </div>
-      <div class="og">
+      <div class="og"><div class="ol">الصفحة</div>
       <label class="sw"><span><b>ملء الشاشة بالصفحة</b><small>تمتد الصفحة إلى أسفل الشاشة فلا يبقى فراغ، وتتباعد السطور قليلًا دون تغيير حجم الخط</small></span><input type="checkbox" id="fillT"><i></i></label>
       <label class="sw"><span><b>إبقاء الشاشة مضاءة</b><small>لا تنطفئ الشاشة أثناء القراءة</small></span><input type="checkbox" id="wakeT"><i></i></label>
+        <label class="sw"><span><b>خط أوضح وأكبر</b><small>تضيق الهوامش الجانبية فيكبر خط المصحف، ويصبح أعرض قليلًا. أطفئه للعودة إلى الشكل الأصلي</small></span><input type="checkbox" id="boldT"><i></i></label>
+        <label class="sw"><span><b>قفل التكبير</b><small>يمنع تكبير الصفحة أو تصغيرها دون قصد، بالأصابع أو بأزرار − و+ أسفل الشاشة. ولقفله أو فتحه بسرعة: اضغط مطولًا على شريط التكبير أسفل الشاشة.</small></span><input type="checkbox" id="zlT"><i></i></label>
+        <label class="sw"><span><b>رسالة التنبيه عند القفل</b><small>تظهر ٥ ثوانٍ حين تحاول التكبير والقفل مفعّل، لتذكّرك بطريقة فتحه. أطفئها لإخفائها.</small></span><input type="checkbox" id="zmT"><i></i></label>
+      </div>
+      <div class="og"><div class="ol">الحفظ</div>
+      <label class="sw"><span><b>وضع الحفظ</b><small>تُخفى الكلمات، وكل لمسة على الصفحة تكشف الكلمة التالية</small></span><input type="checkbox" id="hzT"><i></i></label>
       </div>
     </div>
     <div class="opn" data-op="look" hidden>
@@ -438,6 +513,16 @@ body.ui-l .nv span{white-space:nowrap}
       <label class="sw"><span><b>فلتر الضوء الأزرق</b><small>طبقة دافئة فوق الشاشة لراحة العين ليلًا</small></span><input type="checkbox" id="blT"><i></i></label>
       <div class="rngw" id="blW"><small>خفيف</small><input type="range" id="blR" min="10" max="60" step="5" aria-label="قوة الفلتر"><small>قوي</small></div>
       </div>
+      <div class="og"><div class="ol">شاشة البداية</div>
+        <label class="sw"><span><b>إظهارها عند فتح التطبيق</b><small>صفحة ترحيب فيها متابعة القراءة وورد اليوم وآية اليوم</small></span><input type="checkbox" id="homeT"><i></i></label>
+        <div class="ol" style="margin-top:4px">ما يظهر عليها</div>
+        <div class="chips" id="homeCards"></div>
+        <button class="wide alt" id="homeOpen">افتح شاشة البداية الآن</button>
+      </div>
+      <div class="og"><div class="ol">بداية الأسبوع</div>
+        <small class="hint">تُستخدم في «قراءتك هذا الأسبوع» وتقويم سجل القراءة.</small>
+        <div class="chips" id="wsCh"><button data-ws="6">السبت</button><button data-ws="0">الأحد</button><button data-ws="1">الإثنين</button></div>
+      </div>
     </div>
     <div class="opn" data-op="font" hidden>
       <div class="og"><div class="ol">خط التطبيق</div>
@@ -449,9 +534,6 @@ body.ui-l .nv span{white-space:nowrap}
         <small class="hint">يظهر الخط الذي تختاره عندما تكبّر الصفحة أكثر من ١٠٠٪. في الحجم الطبيعي تبقى الصفحة بخط المصحف الأصلي وترتيب أسطره.</small>
         <div class="fl" id="qfList"></div>
         <div class="spd"><button class="ib" id="fzM" aria-label="تصغير">−</button><div><b id="fzV"></b><small>حجم التكبير</small></div><button class="ib" id="fzP" aria-label="تكبير">+</button></div>
-        <label class="sw"><span><b>خط أوضح وأكبر</b><small>تضيق الهوامش الجانبية فيكبر خط المصحف، ويصبح أعرض قليلًا. أطفئه للعودة إلى الشكل الأصلي</small></span><input type="checkbox" id="boldT"><i></i></label>
-        <label class="sw"><span><b>قفل التكبير</b><small>يمنع تكبير الصفحة أو تصغيرها دون قصد، بالأصابع أو بأزرار − و+ أسفل الشاشة. ولقفله أو فتحه بسرعة: اضغط مطولًا على شريط التكبير أسفل الشاشة.</small></span><input type="checkbox" id="zlT"><i></i></label>
-        <label class="sw"><span><b>رسالة التنبيه عند القفل</b><small>تظهر ٥ ثوانٍ حين تحاول التكبير والقفل مفعّل، لتذكّرك بطريقة فتحه. أطفئها لإخفائها.</small></span><input type="checkbox" id="zmT"><i></i></label>
       </div>
       <div class="og" id="wsG" hidden><div class="ol">خط الودجت</div>
         <small class="hint">لكل ودجت على الشاشة الرئيسية خطها وحجمه وسماكته ولون رقمها. تظهر هذه الإعدادات أيضًا عند إضافة ودجت جديدة.</small>
@@ -464,7 +546,7 @@ body.ui-l .nv span{white-space:nowrap}
       </div>
     </div>
     <div class="opn" data-op="tools" hidden>
-      <div class="og"><button class="wide" id="gdOpen">دليل الاستخدام: كيف أستعمل البرنامج؟</button></div>
+      <div class="og"><div class="ol">المساعدة</div><button class="wide" id="gdOpen">دليل الاستخدام: كيف أستعمل البرنامج؟</button></div>
       <div class="og"><div class="ol">القراءة بدون إنترنت</div>
         <button class="wide" id="fdB">تنزيل صفحات المصحف كلها</button>
         <div class="dlp" id="fdP" hidden><div class="bar2"><i id="fdBar"></i></div><span id="fdT"></span></div>
@@ -472,37 +554,28 @@ body.ui-l .nv span{white-space:nowrap}
       <div class="og"><div class="ol">النسخة الاحتياطية</div>
         <div class="wrow"><button class="wide" id="bkSave">حفظ نسخة احتياطية</button><button class="wide alt" id="bkLoad">استعادة نسخة</button></div>
         <small class="hint">ملف واحد يحفظ كل ما في البرنامج: العلامات، ووقف الورد، والورد اليومي وسجلّه، وختمة الاستماع، وختمة التدبّر وملاحظاتها، والملاحظات، والقرّاء المفضّلين، والإعدادات كلها. احفظه في مكان آمن لتستعيده بعد تغيير الهاتف أو حذف البرنامج. التلاوات المنزّلة لا تدخل فيه لكبر حجمها.</small></div>
-      <div class="og">
-      <label class="sw"><span><b>وضع الحفظ</b><small>تُخفى الكلمات، وكل لمسة على الصفحة تكشف الكلمة التالية</small></span><input type="checkbox" id="hzT"><i></i></label>
+      <div class="og"><div class="ol">ملاحظاتي وسجلّي</div>
         <button class="wide alt" id="goNotes">الملاحظات والنسخ الاحتياطي</button>
         <button class="wide alt" id="goUse">سجل الاستخدام</button>
         <button class="wide alt" id="goCred">المصادر والشكر</button>
       </div>
-      <div class="og"><div class="ol">شاشة البداية</div>
-        <label class="sw"><span><b>إظهارها عند فتح التطبيق</b><small>صفحة ترحيب فيها متابعة القراءة وورد اليوم وآية اليوم</small></span><input type="checkbox" id="homeT"><i></i></label>
-        <div class="ol" style="margin-top:4px">ما يظهر عليها</div>
-        <div class="chips" id="homeCards"></div>
-        <button class="wide alt" id="homeOpen">افتح شاشة البداية الآن</button>
-      </div>
-      <div class="og"><div class="ol">بداية الأسبوع</div>
-        <small class="hint">تُستخدم في «قراءتك هذا الأسبوع» وتقويم سجل القراءة.</small>
-        <div class="chips" id="wsCh"><button data-ws="6">السبت</button><button data-ws="0">الأحد</button><button data-ws="1">الإثنين</button></div>
-      </div>
+      <div class="ctc">للتواصل والاقتراحات: <a href="https://t.me/za_1438" target="_blank" rel="noopener">تيليقرام za_1438@</a></div>
       <div class="ver" data-ver></div>
     </div>
   </div>
 </div>
 <div id="act" class="act" hidden>
-  <div class="ah"><b id="actT"></b><button class="ib" id="actX" aria-label="إلغاء التحديد">✕</button></div>
+  <div class="ah"><b id="actT"></b><button class="ib" id="actP" aria-label="الآية السابقة"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button><button class="ib" id="actN" aria-label="الآية التالية"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button class="ib" id="actX" aria-label="إلغاء التحديد">✕</button></div>
+  <div class="aq" id="actQ"></div>
   <div class="ab">
+    <button id="aLr" class="lrbtn"><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/><path d="M9.5 9.5l2 2 3.5-4"/></svg><span id="aLrT">وقف الورد</span></button>
+    <button id="aTf"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h5v18H6a2 2 0 0 1-2-2zM20 5a2 2 0 0 0-2-2h-5v18h5a2 2 0 0 0 2-2z"/></svg>تفسير</button>
     <button id="aPlay"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>استماع</button>
+    <button id="aAuto"><svg viewBox="0 0 24 24"><path d="M12 3v14M7 12l5 5 5-5M5 21h14"/></svg><span id="aAutoT">تمرير تلقائي</span></button>
     <button id="aCopy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>نسخ</button>
     <button id="aShare"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>مشاركة</button>
-    <button id="aTf"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h5v18H6a2 2 0 0 1-2-2zM20 5a2 2 0 0 0-2-2h-5v18h5a2 2 0 0 0 2-2z"/></svg>تفسير</button>
-    <button id="aAuto"><svg viewBox="0 0 24 24"><path d="M12 3v14M7 12l5 5 5-5M5 21h14"/></svg><span id="aAutoT">تمرير تلقائي</span></button>
     <button id="aNote"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><span id="aNoteT">ملاحظة</span></button>
     <button id="aTd" hidden><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3z"/><path d="M9 21h6"/></svg>تدبّر</button>
-    <button id="aLr" class="lrbtn"><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/><path d="M9.5 9.5l2 2 3.5-4"/></svg><span id="aLrT">وقف الورد</span></button>
     <button id="aSt"><svg viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4.5L6 22z"/></svg>وقف ملوّن</button>
     <button id="aBm"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg><span id="aBmT">علامة</span></button>
   </div>
@@ -525,6 +598,7 @@ body.ui-l .nv span{white-space:nowrap}
     </div>
   </div>
 </div>
+<div class="cont jb" id="jb" hidden><button id="jbGo" style="all:unset;cursor:pointer;display:flex;gap:6px;overflow:hidden"><b id="jbT"></b></button><button id="jbX" aria-label="إخفاء">✕</button></div>
 <div class="cont" id="cont" hidden><button id="contGo" style="all:unset;cursor:pointer;display:flex;gap:6px;overflow:hidden"><b>متابعة القراءة</b><span id="contT"></span></button><button id="contX" aria-label="إخفاء">✕</button></div>
 <div id="aud" class="aud" hidden>
   <div class="ai"><b id="audT"></b><small id="audR"></small></div>
@@ -568,9 +642,10 @@ body.ui-l .nv span{white-space:nowrap}
 </div>
 <div id="wird" class="ovl" hidden>
   <div class="sh" role="dialog" aria-label="الورد اليومي">
-    <div class="oh"><span>الورد اليومي</span><button class="ib" id="wirdX" aria-label="إغلاق">✕</button></div>
-    <div class="wtabs" role="tablist"><button data-wt="r" role="tab">ختمة التلاوة</button><button data-wt="t" role="tab">ختمة التدبّر</button></div>
+    <div class="oh"><span>الورد والختمات</span><button class="ib" id="wirdX" aria-label="إغلاق">✕</button></div>
+    <div class="wtabs" role="tablist"><button data-wt="r" role="tab">ختمة التلاوة</button><button data-wt="l" role="tab">ختمة الاستماع</button><button data-wt="t" role="tab">ختمة التدبّر</button></div>
     <div class="sbody" id="wirdB2"></div>
+    <div class="sbody" id="lkB3" hidden></div>
     <div class="sbody" id="tdB" hidden></div>
   </div>
 </div>
@@ -637,6 +712,7 @@ body.ui-l .nv span{white-space:nowrap}
   <div class="sh" role="dialog" aria-label="المصادر والشكر">
     <div class="oh"><span>المصادر والشكر</span><button class="ib" id="credX" aria-label="إغلاق">✕</button></div>
     <div class="sbody"><div class="og">
+      <div class="cr"><b>الحقوق والتواصل</b><p>إعداد التطبيق: za_1438. للتواصل وإرسال الاقتراحات والملاحظات عبر تيليقرام.</p><div class="crl"><a href="https://t.me/za_1438" target="_blank" rel="noopener">تيليقرام: za_1438@</a></div></div>
       <p class="crin">جزى الله خيرًا كل من خدم كتابه. هذا التطبيق مبني على جهود هذه الجهات، ونصوصها وخطوطها وتلاواتها ملك لأصحابها.</p>
       <div class="cr"><b>صفحات المصحف</b><p>خطوط مصحف المدينة النبوية (الإصدار الثاني QPC V2) وخط البسملة، من إنتاج مجمع الملك فهد لطباعة المصحف الشريف.</p><div class="crl"><a href="https://qurancomplex.gov.sa/" target="_blank" rel="noopener">مجمع الملك فهد</a><a href="https://qul.tarteel.ai/" target="_blank" rel="noopener">مكتبة QUL</a></div></div><div class="cr"><b>ترتيب الصفحات والأسطر</b><p>مواضع الكلمات في أسطر الصفحات الـ٦٠٤ لمصحف المدينة.</p><div class="crl"><a href="https://github.com/zonetecde/mushaf-layout" target="_blank" rel="noopener">mushaf-layout</a></div></div><div class="cr"><b>نص القرآن الكريم</b><p>النص المستخدم في البحث والنسخ، من مشروع تنزيل، دون تعديل.</p><div class="crl"><a href="https://tanzil.net/" target="_blank" rel="noopener">مشروع تنزيل</a><a href="https://github.com/risan/quran-json" target="_blank" rel="noopener">quran-json</a></div></div><div class="cr"><b>الأرباع والأحزاب والسجدات</b><p>بيانات مواضع الأرباع والسجدات.</p><div class="crl"><a href="https://github.com/fawazahmed0/quran-api" target="_blank" rel="noopener">quran-api</a></div></div><div class="cr"><b>التفاسير ومعاني الكلمات</b><p>المختصر في التفسير (مركز تفسير للدراسات القرآنية)، وتفسير السعدي، وتفسير ابن كثير، والميسر في غريب القرآن.</p><div class="crl"><a href="https://github.com/spa5k/tafsir_api" target="_blank" rel="noopener">tafsir_api</a><a href="https://tafsir.net/" target="_blank" rel="noopener">مركز تفسير</a><a href="https://quran.com/" target="_blank" rel="noopener">Quran.com</a></div></div><div class="cr"><b>أسباب النزول</b><p>كتاب «أسباب النزول» لأبي الحسن الواحدي، من مجموعة OpenITI، وأصله من المكتبة الشاملة. رُبطت كل رواية بآيتها آليًا، فقد يقع خطأ في الربط.</p><div class="crl"><a href="https://github.com/OpenITI" target="_blank" rel="noopener">OpenITI</a><a href="https://shamela.ws/" target="_blank" rel="noopener">المكتبة الشاملة</a></div></div><div class="cr"><b>التلاوات الصوتية</b><p>تلاوات القرّاء آية آية، تُحمَّل من الموقع عند الاستماع. الحقوق محفوظة للقرّاء وأصحاب التسجيلات.</p><div class="crl"><a href="https://everyayah.com/" target="_blank" rel="noopener">EveryAyah</a></div></div><div class="cr"><b>خطوط الكتابة</b><p>أميري، وأميري قرآن، وشهرزاد، ونوتو نسخ، ونوتو كوفي، والقاهرة، وتجوال، ولطيف، ومركزي. جميعها برخصة SIL Open Font License.</p><div class="crl"><a href="https://fonts.google.com/" target="_blank" rel="noopener">Google Fonts</a></div></div>
       <p class="crin">إن لاحظت خطأ في نص أو تفسير أو ربط آية، فالرجاء التحقق من المصدر الأصلي.</p>
@@ -663,7 +739,7 @@ body.ui-l .nv span{white-space:nowrap}
 <div id="home" class="home" hidden>
   <div class="hw">
     <header class="hh">
-      <div><div class="hd2 hdl" id="hDate"></div></div>
+      <div><div class="hdt" id="hHij"></div><div class="hd2 hdl" id="hDate"></div></div>
       <button class="ib" id="hSet" aria-label="تخصيص شاشة البداية"><svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></button>
     </header>
     <div class="hc" id="hCards"></div>
@@ -680,7 +756,7 @@ body.ui-l .nv span{white-space:nowrap}
 </div>
 <div class="toast" id="toast"></div>
 
-<script>/*APP_VERSION*/window.APP_VERSION="1.75";/*END*/
+<script>/*APP_VERSION*/window.APP_VERSION="1.81";/*END*/
 document.querySelectorAll("[data-ver]").forEach(e=>e.textContent="الإصدار "+window.APP_VERSION.replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]).replace(".","٫"))</script>
 <script src="data.js"></script>
 <script>
@@ -803,6 +879,8 @@ function reflow(el,pg,fs){
 }
 
 // ---- settings ----
+let ffx=store.get('mushaf-ffx')!=='0';   // page-turn effect on/off
+let fsp=['fast','mid','slow','vslow'].includes(store.get('mushaf-fsp'))?store.get('mushaf-fsp'):'mid';   // page-turn speed
 let mode=store.get('mushaf-mode')==='v'?'v':'h';      // h: page by page, v: continuous vertical scroll
 let theme=store.get('mushaf-theme')||'auto';
 function applyTheme(){if(theme==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=theme;
@@ -821,11 +899,19 @@ function fitMeta(){const m=$('meta'),b=m.closest('.bar'),pg=cur;if(!pg)return;
 addEventListener('resize',()=>{if(typeof fitMeta==='function')fitMeta()});
 try{document.fonts.ready.then(()=>{if(typeof cur!=='undefined'&&cur)fitMeta()})}catch(e){}
 setTimeout(()=>{try{if(cur)fitMeta()}catch(e){}},1500);
+// after a jump (index, search, bookmark…) offer a way back to the page the reader came from
+let jbSkip=false,jbPg=0,jbTm=0,jbFrom=0,jbArm=0;
+function jbHide(){clearTimeout(jbTm);const e=document.getElementById('jb');if(e)e.hidden=true}
+function jbShow(pg){const e=document.getElementById('jb');if(!e)return;const c=document.getElementById('cont');if(c&&!c.hidden)return;
+  jbPg=pg;document.getElementById('jbT').textContent='رجوع إلى صفحة '+ar(pg);e.hidden=false;clearTimeout(jbTm);jbTm=setTimeout(jbHide,12000);
+  document.getElementById('jbGo').onclick=()=>{jbHide();jbSkip=true;const r=show(jbPg);const done=()=>{jbSkip=false};if(r&&r.then)r.then(done,done);else done()};
+  document.getElementById('jbX').onclick=jbHide}
 function setHeader(pg){
   cur=pg; store.set('mushaf-page',pg);
   try{history.replaceState(null,'','#p'+pg)}catch(e){}
   $('bmB').setAttribute('aria-pressed',bm.some(b=>b.p===pg&&b.v<0));
-  $('sname').textContent='سورة '+S[surahAt(pg)-1][0]; fitMeta();
+  $('sname').textContent='سورة '+S[surahAt(pg)-1][0]; fitMeta();$('hprog').style.width=(pg/604*100)+'%';
+  if(jbFrom&&Date.now()-jbArm<1500&&Math.abs(pg-jbFrom)>1){const f=jbFrom;jbFrom=0;if(!jbSkip)jbShow(f)}
   if(typeof wirdTrack==='function')wirdTrack(pg);
   if(typeof trackTop==='function')trackTop();
   if(typeof as!=='undefined'&&as.on&&mode==='h'){as.el0=0}
@@ -848,7 +934,7 @@ async function fill(el,pg,isLive){
 let token=0;
 // ---- mode h: one page at a time ----
 async function showH(pg,keepScroll){
-  const my=++token; setHeader(pg); stage.style.paddingBottom='';
+  flipReset();const my=++token; setHeader(pg); stage.style.paddingBottom='';
   const el=build(pg); const sy=view.scrollTop;
   stage.replaceChildren(el); view.scrollTop=keepScroll?sy:0;
   await fill(el,pg,()=>my===token);
@@ -905,7 +991,7 @@ view.addEventListener('scroll',()=>{if(mode!=='v')return;
   else if(!anc||Math.abs(view.scrollTop-(anc.el.offsetTop+anc.off))>1)recAnchor();
   requestAnimationFrame(vFill)},{passive:true});
 
-function show(pg,keep){pg=Math.min(604,Math.max(1,pg)); stage.classList.toggle('vmode',mode==='v'); return mode==='v'?showV(pg,keep?vFrac():0):showH(pg,keep)}
+function show(pg,keep){pg=Math.min(604,Math.max(1,pg));if(typeof cur==='number'&&cur&&!keep){jbFrom=cur;jbArm=Date.now()} flipReset(); stage.classList.toggle('vmode',mode==='v'); view.classList.toggle('hm',mode==='h'); return mode==='v'?showV(pg,keep?vFrac():0):showH(pg,keep)}
 function vFrac(){const e=vPages().find(e=>+e.dataset.pg===cur);if(!e)return 0;return Math.max(0,Math.min(1,(view.scrollTop-e.offsetTop+view.clientHeight*.0)/e.offsetHeight))}
 
 function setZoom(z,anchor){
@@ -940,26 +1026,71 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){handleBack();return}
   if(e.key==='ArrowLeft')go(1); else if(e.key==='ArrowRight')go(-1); else if(e.key==='+'||e.key==='=')uZoom(zoom+.25); else if(e.key==='-')uZoom(zoom-.25)});
 view.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();if(zLock)return;setZoom(zoom*(e.deltaY<0?1.12:1/1.12),{x:e.clientX,y:e.clientY})}},{passive:false});
 
+// mode h: the page follows the finger and the next page slides in beside it, like turning a real page
+var F={};
+// distance between the two pages' positions: the leaving page is fully out, and a narrow gap stays between them
+function flipOff(){const p=stage.firstElementChild,W=view.clientWidth,pw=p?p.offsetWidth:W;return Math.max(pw+10,(W+pw)/2+6)}
+function flipPeek(n,d){
+  const w=document.createElement('div'),cs=getComputedStyle(stage);
+  w.className=stage.className.replace(/\bvmode\b/,'')+(ffx?' flipin':'');
+  w.style.cssText=`position:absolute;left:0;top:${view.scrollTop}px;width:${view.clientWidth}px;display:flex;justify-content:center;align-items:flex-start;box-sizing:border-box;padding:${cs.paddingTop} ${cs.paddingRight} 0 ${cs.paddingLeft};pointer-events:none;will-change:transform;transform:translate3d(${-d*flipOff()}px,0,0)`;
+  const el=build(n);w.appendChild(el);view.appendChild(w);F.wrap=w;F.el=el;F.n=n;
+  el._ready=fill(el,n,()=>el.isConnected)}
+function flipDrag(dx){
+  if(F.tm)flipDone();
+  const d=dx>0?1:-1;
+  if(F.d!==d&&(F.d===undefined||Math.abs(dx)>4)){if(F.wrap)F.wrap.remove();F={d};const n=cur+d;if(n>=1&&n<=604)flipPeek(n,d);stage.style.willChange='transform'}
+  const x=F.wrap?dx:dx*.25;   // at the first and last page it only gives a little
+  F.x=x;
+  stage.style.transition='';stage.style.transform=flipLeave(x);
+  if(F.wrap){const O=flipOff(),p=Math.min(1,Math.abs(x)/O);if(ffx)stage.style.opacity=1-.35*p;F.wrap.style.transition='';F.wrap.style.transform=`translate3d(${x-F.d*O}px,0,0)`}}
+// the leaving page moves slower and sinks back while the new one slides over it
+function flipLeave(x){if(!F.wrap||!ffx)return `translate3d(${x}px,0,0)`;
+  const p=Math.min(1,Math.abs(x)/flipOff());stage.style.transformOrigin=`50% ${view.scrollTop+view.clientHeight/2}px`;
+  return `translate3d(${x*.35}px,0,0) scale(${1-.08*p})`}
+function flipEnd(ok){
+  const O=flipOff(),d=F.d||1,full={fast:260,mid:520,slow:900,vslow:1700}[fsp]||520,ax=Math.abs(F.x||0),
+    dur=Math.round(ok?Math.max(90,full*(1-Math.min(1,ax/O))):Math.max(120,full*.8*Math.min(1,ax/O+.15))),tr=`transform ${dur}ms cubic-bezier(.2,.8,.25,1),opacity ${dur}ms ease-out`;
+  stage.style.transition=tr;stage.style.transform=ok?flipLeave(d*O):'translate3d(0,0,0)';stage.style.opacity=ok&&F.wrap&&ffx?.65:'';
+  if(F.wrap){F.wrap.style.transition=tr;F.wrap.style.transform=ok?'translate3d(0,0,0)':`translate3d(${-d*O}px,0,0)`}
+  F.ok=ok;clearTimeout(F.tm);F.tm=setTimeout(flipDone,dur+20)}
+function flipDone(){
+  clearTimeout(F.tm);const f=F;F={};
+  stage.style.transition='';stage.style.transform='';stage.style.willChange='';stage.style.opacity='';stage.style.transformOrigin='';
+  if(f.ok&&f.el){const n=f.n,el=f.el;++token;setHeader(n);stage.style.paddingBottom='';
+    stage.replaceChildren(el);if(f.wrap)f.wrap.remove();view.scrollTop=0;
+    [n+1,n-1,n+2].forEach(k=>{if(k>=1&&k<=604)pageFont(k).catch(()=>{})});toast('صفحة '+ar(n))}
+  else if(f.wrap)f.wrap.remove()}
+function flipReset(){if(!F)return;if(F.wrap||F.tm||stage.style.transform){clearTimeout(F.tm);if(F.wrap)F.wrap.remove();F={};stage.style.transition='';stage.style.transform='';stage.style.willChange='';stage.style.opacity='';stage.style.transformOrigin=''}}
+
 // touch: pinch to zoom (preview with transform, then re-render crisp); in mode h a sideways swipe turns the page
 let t0=null;
 const pinchTarget=()=>mode==='v'?stage:stage.firstChild;
 view.addEventListener('touchstart',e=>{
+  if(F.tm)flipDone();
+  if(e.touches.length>1&&F.wrap)flipEnd(false);
   if(e.touches.length===2&&zLock){t0={pinch:true,locked:true,s:1};return}
   if(e.touches.length===2){const[a,b]=e.touches;t0={pinch:true,d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),x:(a.clientX+b.clientX)/2,y:(a.clientY+b.clientY)/2,s:1}}
-  else if(e.touches.length===1&&!(t0&&t0.pinch)){const a=e.touches[0];t0={x:a.clientX,y:a.clientY,t:Date.now()}}
+  else if(e.touches.length===1&&!(t0&&t0.pinch)){const a=e.touches[0];t0={x:a.clientX,y:a.clientY,t:Date.now(),h:null}}
 },{passive:true});
 view.addEventListener('touchmove',e=>{
   if(t0&&t0.locked){e.preventDefault();return}
+  if(t0&&!t0.pinch&&mode==='h'&&e.touches.length===1){const a=e.touches[0],dx=a.clientX-t0.x,dy=a.clientY-t0.y;
+    if(t0.h===null){if(Math.abs(dx)<7&&Math.abs(dy)<7)return;t0.h=Math.abs(dx)>Math.abs(dy)*1.15&&!(lp&&lp.fired)}
+    if(t0.h){e.preventDefault();const now=Date.now();if(t0.lt){const v=(dx-t0.lx)/Math.max(1,now-t0.lt);t0.v=t0.v===undefined?v:t0.v*.5+v*.5}t0.lx=dx;t0.lt=now;const sg=Math.sign(dx);if(sg!==t0.sg){t0.sg=sg;t0.mx=0}t0.mx=Math.max(t0.mx,Math.abs(dx));flipDrag(dx)}return}
   if(t0&&t0.pinch&&e.touches.length===2){e.preventDefault();const[a,b]=e.touches;t0.s=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)/t0.d;
     const p=pinchTarget(); if(p){p.style.transformOrigin=`center ${t0.y-p.getBoundingClientRect().top}px`;p.style.transform=`scale(${Math.min(4/zoom,Math.max(1/zoom,t0.s))})`}}
 },{passive:false});
+view.addEventListener('touchcancel',()=>{if(F.wrap&&!F.tm)flipEnd(false);if(t0&&!t0.pinch)t0=null},{passive:true});
 view.addEventListener('touchend',e=>{
   if(!t0)return;
   if(t0.locked){if(e.touches.length===0){t0=null;if(!window._zlm||Date.now()-window._zlm>5500){window._zlm=Date.now();zLockedMsg()}}return}
   if(t0.pinch){if(e.touches.length===0){const s=t0.s, a={x:t0.x,y:t0.y};t0=null;const p=pinchTarget();if(p)p.style.transform='';if(Math.abs(s-1)>.04)setZoom(zoom*s,a)}return}
   const c=e.changedTouches[0], dx=c.clientX-t0.x, dy=c.clientY-t0.y;
   if(lp&&lp.fired){t0=null;return}
-  if(mode==='h'&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&Date.now()-t0.t<600){window._swT=Date.now();go(dx>0?1:-1)}
+  if(mode==='h'&&t0.h){const W=view.clientWidth,dt=Math.max(1,Date.now()-t0.t),back=(t0.mx||0)-Math.abs(dx)>Math.max(14,(t0.mx||0)*.25)||((t0.v||0)*Math.sign(dx)<-.3&&Date.now()-(t0.lt||0)<120);
+    const ok=!!F.wrap&&Math.sign(dx)===F.d&&Math.abs(dx)>=Math.min(22,W*.06)&&!back;window._swT=Date.now();flipEnd(ok)}
+  else if(F.wrap)flipEnd(false);
   t0=null;
 },{passive:true});
 
@@ -967,10 +1098,13 @@ view.addEventListener('touchend',e=>{
 function syncOpts(){try{syncFd()}catch(e){}
   document.querySelectorAll('#opts [data-mode]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.mode===mode));
   document.querySelectorAll('#opts [data-theme-v]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.themeV===theme));
+  document.querySelectorAll('#opts [data-fsp]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.fsp===fsp));document.querySelectorAll('#opts [data-ffx]').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.ffx==='1')===ffx));$('fspG').hidden=mode!=='h';
 }
 $('optB').onclick=()=>{syncOpts();$('opts').hidden=false;setOpTab(opTab)};
 $('opts').onclick=e=>{if(e.target.id==='opts'||e.target.id==='optX')$('opts').hidden=true};
 document.querySelectorAll('#opts [data-mode]').forEach(b=>b.onclick=()=>{if(mode===b.dataset.mode)return;mode=b.dataset.mode;store.set('mushaf-mode',mode);syncOpts();show(cur);toast(mode==='v'?'التمرير للأعلى':'التقليب الجانبي')});
+document.querySelectorAll('#opts [data-ffx]').forEach(b=>b.onclick=()=>{ffx=b.dataset.ffx==='1';store.set('mushaf-ffx',ffx?'1':'0');syncOpts();toast(ffx?'تقليب مع تأثير':'تقليب بدون تأثير')});
+document.querySelectorAll('#opts [data-fsp]').forEach(b=>b.onclick=()=>{fsp=b.dataset.fsp;store.set('mushaf-fsp',fsp);syncOpts();toast('سرعة التقليب: '+b.textContent)});
 document.querySelectorAll('#opts [data-theme-v]').forEach(b=>b.onclick=()=>{theme=b.dataset.themeV;store.set('mushaf-theme',theme);applyTheme();syncOpts()});
 
 // ---- verse helpers, text, bookmarks ----
@@ -1021,17 +1155,35 @@ function drawSel(pe){
 }
 function selectVerse(v){selV=v;markSel();$('actT').textContent='سورة '+vRef(v).replace(/ (\S+)$/,'، آية $1');
   $('aLrT').textContent=v===lastRead?'إزالة وقف الورد':'وقف الورد';
-  $('aBmT').textContent=bm.some(b=>b.v===v)?'إزالة العلامة':'علامة';$('act').hidden=false}
+  $('aBmT').textContent=bm.some(b=>b.v===v)?'إزالة العلامة':'علامة';$('act').classList.toggle('six',!$('aTd').hidden);
+  $('actP').disabled=v<=0;$('actN').disabled=v>=6235;$('actP').style.opacity=v<=0?.3:'';$('actN').style.opacity=v>=6235?.3:'';
+  $('actQ').textContent='';loadText().then(T=>{if(selV===v)$('actQ').textContent=T.u[v]}).catch(()=>{});$('act').hidden=false}
+// move the selection to the verse before or after, turning the page when needed
+function stepVerse(d){const v=selV+d;if(selV<0||v<0||v>6235)return;const sp=stage.querySelector(`span[data-v="${v}"]`);
+  if(sp){selectVerse(v);try{sp.scrollIntoView({block:'nearest'})}catch(e){}}else{jbSkip=true;openVerse(v);setTimeout(()=>{jbSkip=false},600)}}
 function clearSel(){if(selV<0)return;selV=-1;markSel();$('act').hidden=true}
-$('actX').onclick=clearSel;
+$('actX').onclick=clearSel;$('actP').onclick=()=>stepVerse(-1);$('actN').onclick=()=>stepVerse(1);
 let lp=null;
-view.addEventListener('touchstart',e=>{const sp=e.target.closest&&e.target.closest('span[data-v]');
-  if(e.touches.length!==1||!sp)return;const t=e.touches[0];
-  lp={x:t.clientX,y:t.clientY,fired:false,tm:setTimeout(()=>{lp.fired=true;selectVerse(+sp.dataset.v);try{navigator.vibrate&&navigator.vibrate(15)}catch(e){}},450)}},{passive:true});
-view.addEventListener('touchmove',e=>{if(lp&&!lp.fired){const t=e.touches[0];if(e.touches.length>1||Math.hypot(t.clientX-lp.x,t.clientY-lp.y)>10){clearTimeout(lp.tm);lp=null}}},{passive:true});
+// the verse under the finger, or the nearest word on the page (lines spread words apart, so the finger often lands in a gap)
+function verseAt(tg,x,y){let sp=tg&&tg.closest&&tg.closest('span[data-v]');if(sp)return sp;
+  const pe=tg&&tg.closest&&tg.closest('.page');if(!pe)return null;
+  let best=null,bd=1e9;
+  for(const s of pe.querySelectorAll('span[data-v]')){const r=s.getBoundingClientRect();if(!r.width)continue;
+    const ddx=x<r.left?r.left-x:x>r.right?x-r.right:0, ddy=y<r.top?r.top-y:y>r.bottom?y-r.bottom:0, d=ddx+ddy*2.5;
+    if(d<bd){bd=d;best=s}}
+  const fs=best?parseFloat(getComputedStyle(best).fontSize)||20:0;
+  return best&&bd<=Math.max(48,fs*2)?best:null}
+view.addEventListener('touchstart',e=>{if(lp){clearTimeout(lp.tm);lp=null}
+  if(e.touches.length!==1)return;const tg=e.target;if(!(tg.closest&&(tg.closest('span[data-v]')||tg.closest('.page'))))return;const t=e.touches[0];
+  const L={x:t.clientX,y:t.clientY,fired:false};lp=L;
+  L.tm=setTimeout(()=>{if(lp!==L)return;const sp=verseAt(tg,L.x,L.y);if(!sp){lp=null;return}
+    L.fired=true;selectVerse(+sp.dataset.v);try{navigator.vibrate&&navigator.vibrate(15)}catch(e){}},380)},{passive:true});
+view.addEventListener('touchmove',e=>{if(lp&&!lp.fired){const t=e.touches[0];if(e.touches.length>1||(t0&&t0.h)||Math.hypot(t.clientX-lp.x,t.clientY-lp.y)>16){clearTimeout(lp.tm);lp=null}}},{passive:true});
 view.addEventListener('touchend',()=>{if(lp){clearTimeout(lp.tm);if(lp.fired){t0=null;lpFired=Date.now()}lp=null}},{passive:true});
+view.addEventListener('touchcancel',()=>{if(lp){clearTimeout(lp.tm);if(lp.fired)lpFired=Date.now();lp=null}},{passive:true});
 let lpFired=0;
-view.addEventListener('contextmenu',e=>{const sp=e.target.closest('span[data-v]');if(sp){e.preventDefault();selectVerse(+sp.dataset.v)}});
+view.addEventListener('contextmenu',e=>{const sp=verseAt(e.target,e.clientX,e.clientY);if(sp||e.target.closest('.page'))e.preventDefault();
+  if(sp&&Date.now()-lpFired>800&&!(lp&&lp.fired))selectVerse(+sp.dataset.v)});
 view.addEventListener('click',e=>{if(Date.now()-lpFired<600)return;if(selV>=0&&!e.target.closest('.sel')){clearSel();return}
   if(hifz){const pe=e.target.closest('.page');if(pe)revealNext(pe,'w');return}
   if(e.target.closest('.page')||e.target===view||e.target===stage)toggleImm()});
@@ -1092,6 +1244,14 @@ $('tf').onclick=e=>{if(e.target.id==='tf')$('tf').hidden=true};
 document.querySelectorAll('[data-tf]').forEach(b=>b.onclick=()=>{tfK=b.dataset.tf;store.set('mushaf-tf',tfK);tfV=Math.max(tfRange[0],Math.min(tfV,tfRange[1]));renderTf()});
 $('tfN').onclick=()=>{if(tfRange[1]<6235){tfV=tfRange[1]+1;renderTf();selectVerse(tfV);followVerse(tfV)}};
 $('tfP').onclick=()=>{if(tfRange[0]>0){tfV=tfRange[0]-1;renderTf();selectVerse(tfV);followVerse(tfV)}};
+{let ts=null;const B=$('tfB');
+  B.addEventListener('touchstart',e=>{ts=e.touches.length===1?{x:e.touches[0].clientX,y:e.touches[0].clientY,t:Date.now()}:null},{passive:true});
+  B.addEventListener('touchend',e=>{if(!ts)return;const t=e.changedTouches[0],dx=t.clientX-ts.x,dy=t.clientY-ts.y,q=ts;ts=null;
+    if(Math.abs(dx)<56||Math.abs(dx)<Math.abs(dy)*1.8||Date.now()-q.t>900)return;
+    const sel=window.getSelection&&String(getSelection());if(sel)return;
+    B.classList.remove('sl','sr');void B.offsetWidth;B.classList.add(dx>0?'sr':'sl');
+    $(dx>0?'tfN':'tfP').click()},{passive:true});
+  B.addEventListener('touchcancel',()=>{ts=null},{passive:true})}
 $('tfS').onclick=()=>{tfFs=Math.max(14,tfFs-2);store.set('mushaf-tffs',tfFs);$('tfB').style.setProperty('--tfs',tfFs+'px')};
 $('tfL').onclick=()=>{tfFs=Math.min(30,tfFs+2);store.set('mushaf-tffs',tfFs);$('tfB').style.setProperty('--tfs',tfFs+'px')};
 // keep the page behind the tafsir in step with the verse being read
@@ -1145,6 +1305,7 @@ function renderList(){
   const c=L.querySelector('.cur');if(c)c.scrollIntoView({block:'center'});
 }
 $('idx').onclick=()=>{$('sheet').hidden=false;setTab(tab==='Q'?'S':tab)};
+$('ttlB').onclick=()=>{$('sheet').hidden=false;setTab('S')};
 $('srchB').onclick=()=>{$('sheet').hidden=false;setTab('Q')};
 $('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').hidden=true};
 ['S','J','B','Q','N'].forEach(k=>$('t'+k).onclick=()=>setTab(k));
@@ -1692,7 +1853,10 @@ let qfont=QFONTS.some(f=>f[0]===store.get('mushaf-qf'))?store.get('mushaf-qf'):'
 let tfont=TFONTS.some(f=>f[0]===store.get('mushaf-tfn'))?store.get('mushaf-tfn'):'amiri';
 const fxSrc=k=>'fx/'+k+'.woff';
 const fxReady=new Set();
-function loadFx(k){if(k==='amiri'||k==='mushaf')return Promise.resolve();return face('FX_'+k,'FX_'+k,fxSrc(k)).then(r=>{fxReady.add(k);return r})}
+// newer interface fonts ship as two files (regular + bold) under one family name
+const FX2={plex:1,almarai:1,notosans:1,readex:1,messiri:1,changa:1,reem:1};
+function loadFx2(k){const key='FX2_'+k;return loaded[key]||(loaded[key]=Promise.all([['','400'],['-b','700']].map(([sf,w])=>{const f=new FontFace('FX_'+k,`url(fx/${k}${sf}.woff2)`,{weight:w});return f.load().then(()=>document.fonts.add(f))})).then(()=>{fxReady.add(k);return true}).catch(e=>{delete loaded[key];throw e}))}
+function loadFx(k){if(k==='amiri'||k==='mushaf')return Promise.resolve();if(FX2[k])return loadFx2(k);return face('FX_'+k,'FX_'+k,fxSrc(k)).then(r=>{fxReady.add(k);return r})}
 const famOf=k=>k==='amiri'||k==='mushaf'?'QAMIRI':'FX_'+k;
 // one span per word (in the chosen font) instead of the page's glyph tokens; ayah-number glyphs stay as they are
 function altTokens(row,lw,pg,k){const sp=[...row.children],[ws,cs]=lw,out=[];let t=0;
@@ -1718,12 +1882,12 @@ function fontList(el,list,cur,sample,onPick){el.replaceChildren();list.forEach((
   else if(k==='sysfont')sp.style.fontFamily='system-ui,sans-serif';
   else loadFx(k).then(()=>{sp.style.fontFamily=famOf(k)}).catch(()=>{});
   b.onclick=()=>onPick(k);el.appendChild(b)})}
-const UFONTS=[['cairo','القاهرة'],['tajawal','تجوال'],['kufi','الكوفي'],['naskh','النسخ'],['markazi','مركزي'],['lateef','لطيف'],['sch','شهرزاد'],['system','خط الجهاز']];
+const UFONTS=[['cairo','القاهرة'],['tajawal','تجوال'],['kufi','الكوفي'],['naskh','النسخ'],['markazi','مركزي'],['lateef','لطيف'],['sch','شهرزاد'],['plex','بلكس'],['almarai','المراعي'],['notosans','نوتو سانس'],['readex','ريدكس'],['messiri','المسيري'],['changa','تشانغا'],['reem','ريم الكوفي'],['system','خط الجهاز']];
 let ufont=UFONTS.some(f=>f[0]===store.get('mushaf-uf'))?store.get('mushaf-uf'):'cairo';
 function applyUfont(){if(ufont==='system'){document.documentElement.style.setProperty('--f-ui','system-ui,sans-serif');return}
   loadFx(ufont).then(()=>document.documentElement.style.setProperty('--f-ui',`FX_${ufont},system-ui,sans-serif`)).catch(()=>{})}
-function renderFonts(){
-  fontList($('ufList'),UFONTS.map(([k,n])=>[k==='system'?'sysfont':k,n]),ufont==='system'?'sysfont':ufont,'الفهرس · الورد · أكمل وردك',k=>{ufont=k==='sysfont'?'system':k;store.set('mushaf-uf',ufont);applyUfont();renderFonts()});
+function renderFonts(){$('ufList').classList.add('g2');
+  fontList($('ufList'),UFONTS.map(([k,n])=>[k==='system'?'sysfont':k,n]),ufont==='system'?'sysfont':ufont,'أكمل وردك اليوم',k=>{ufont=k==='sysfont'?'system':k;store.set('mushaf-uf',ufont);applyUfont();renderFonts()});
   $('uzV').textContent=ar(Math.round(uiz*100))+'٪';
   fontList($('qfList'),QFONTS,qfont,'ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ',k=>{qfont=k;store.set('mushaf-qf',k);applyQfontBox();renderFonts();
     if(k!=='mushaf'&&zoom===1){setZoom(1.5);toast('كبّرت الصفحة ليظهر الخط الجديد')}else show(cur,true)});
@@ -1761,12 +1925,19 @@ async function renderHome(){
   
   let hij='';try{hij=new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(now)}catch(e){}
   let gre='';try{gre=new Intl.DateTimeFormat('ar-SA-u-ca-gregory-nu-arab',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now)}catch(e){}
-  $('hDate').textContent=[gre,hij].filter(Boolean).join(' · ');
+  $('hHij').textContent=hij||gre;$('hDate').textContent=hij?gre:'';
   const card=(cls,icon,title,body)=>{const c=document.createElement('div');c.className='hcard'+(cls?' '+cls:'');c.innerHTML=`<div class="ht">${ic(icon)}<span>${title}</span></div>`+body;H.appendChild(c);return c};
+  if(homeCards.quick){
+    const c=document.createElement('div');c.className='hql top';H.appendChild(c);c.innerHTML=(`
+      <button data-q="idx"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>الفهرس</button>
+      <button data-q="srch"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>البحث</button>
+      <button data-q="bm"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>العلامات</button>
+      <button data-q="notes"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>الملاحظات</button>`);
+    c.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{closeHome();const q=b.dataset.q;$('sheet').hidden=false;setTab(q==='idx'?'S':q==='srch'?'Q':q==='bm'?'B':'N')})}
   if(homeCards.cont){
     if(wird)syncWirdLr();
     const cp=contPoint();
-    const c=card('prim','book','أكمل وردك',`<div class="hq lrq">…</div><div class="hb" style="font-size:17px">${cp.marker?'توقفت عند':'تبدأ من'} سورة ${vRef(cp.v).replace(/ (\S+)$/,'، آية $1')}</div><div class="hs">صفحة ${ar(cp.pg)} · الجزء ${ar(juzAt(cp.pg))}${cp.marker?'':' · بعد آخر ما قرأته في وردك'}</div><button class="hbtn">أكمل وردك</button>`);
+    const c=card('prim','book','أكمل وردك',`<div class="hq lrq">…</div><div class="hb" style="font-size:17px">${cp.marker?'توقفت عند':'تبدأ من'} سورة ${vRef(cp.v).replace(/ (\S+)$/,'، آية $1')}</div><div class="hs">صفحة ${ar(cp.pg)} · الجزء ${ar(juzAt(cp.pg))}${cp.marker?'':' · بعد آخر ما قرأته في وردك'}</div><div class="hpg"><div><i style="width:${(100*cp.pg/604).toFixed(1)}%"></i></div><span>${ar(Math.round(100*cp.pg/604))}٪ من المصحف</span></div><button class="hbtn">أكمل وردك</button>`);
     c.querySelector('button').onclick=()=>{closeHome();goCont()};
     const lv=+(store.get('mushaf-lastv')??-1);
     if(cp.marker&&lv>lastRead&&lv<6236&&QDATA.vp[lv]>QDATA.vp[lastRead]){
@@ -1816,20 +1987,13 @@ async function renderHome(){
     for(let i=0;i<7;i++){const d=new Date(st);d.setDate(st.getDate()+i);const k=dkey(d),fut=k>today(),n=fut?0:(rlog[k]||[]).length;tot+=n;
       cells+=`<div class="${k===today()?'td':''}${fut?' fut':''}"><i class="${n?'on':''}">${n?ar(n):''}</i>${D[d.getDay()]}</div>`}
     card('','chart','قراءتك هذا الأسبوع',`<div class="hwk">${cells}</div><div class="hs">${tot?'قرأت '+ar(tot)+' صفحة هذا الأسبوع':'لم تُسجَّل قراءة هذا الأسبوع بعد. ابدأ بصفحة واحدة.'}</div>`)}
-  if(homeCards.quick){
-    const c=card('','grid','اختصارات',`<div class="hql">
-      <button data-q="idx"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>الفهرس</button>
-      <button data-q="srch"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>البحث</button>
-      <button data-q="bm"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>العلامات</button>
-      <button data-q="notes"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>الملاحظات</button></div>`);
-    c.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{closeHome();const q=b.dataset.q;$('sheet').hidden=false;setTab(q==='idx'?'S':q==='srch'?'Q':q==='bm'?'B':'N')})}
   if(!H.children.length){const e=document.createElement('div');e.className='hcard';e.innerHTML='<div class="hs">لم تختر أي عنصر لشاشة البداية. اضغط زر التخصيص في الأعلى لاختيار ما يظهر هنا.</div>';H.appendChild(e)}
 }
 function openHome(){$('home').hidden=false;$('home').scrollTop=0;renderHome()}
 function closeHome(){$('home').hidden=true}
 
-$('hNo').onclick=()=>{homeOn=false;store.set('mushaf-home','0');closeHome();setTimeout(()=>toast('لن تظهر شاشة البداية مجددًا. يمكنك إظهارها من الخيارات ← أدوات ← شاشة البداية',5000),150)};
-$('hSet').onclick=()=>{closeHome();syncOpts();$('opts').hidden=false;setOpTab('tools');setTimeout(()=>$('homeT').scrollIntoView({block:'center'}),60)};
+$('hNo').onclick=()=>{homeOn=false;store.set('mushaf-home','0');closeHome();setTimeout(()=>toast('لن تظهر شاشة البداية مجددًا. يمكنك إظهارها من الخيارات ← المظهر ← شاشة البداية',5000),150)};
+$('hSet').onclick=()=>{closeHome();syncOpts();$('opts').hidden=false;setOpTab('look');setTimeout(()=>$('homeT').scrollIntoView({block:'center'}),60)};
 function syncHomeOpts(){$('homeT').checked=homeOn;document.querySelectorAll('#wsCh button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.ws===weekStart));const C=$('homeCards');C.replaceChildren();
   HCARDS.forEach(([k,nm])=>{const b=document.createElement('button');b.textContent=nm;b.setAttribute('aria-pressed',!!homeCards[k]);
     b.onclick=()=>{homeCards[k]=homeCards[k]?0:1;store.set('mushaf-homecards',JSON.stringify(homeCards));b.setAttribute('aria-pressed',!!homeCards[k])};C.appendChild(b)})}
@@ -2058,9 +2222,19 @@ $('tdn').onclick=e=>{if(e.target.id==='tdn')$('tdn').hidden=true};
 const syncTdBtn=()=>{$('aTd').hidden=!td};syncTdBtn();
 $('aTd').onclick=()=>{const v=selV;if(v<0)return;clearSel();openTdNote(v)};
 // tabs inside the wird window
-let wTab=store.get('mushaf-wtab')||'r';
+let wTab=['r','l','t'].includes(store.get('mushaf-wtab'))?store.get('mushaf-wtab'):'r';
+// listening khatma tab: a summary of the same khatma that lives in the audio sheet
+function renderLkTab(){const B=$('lkB3'),playing=au.on&&au.kh,n=lkToday(),pc=lkPct(),pg=QDATA.vp[lk.pos];
+  B.innerHTML=`<div class="og"><div class="lkp"><div class="lb">${lk.pos>0?'وصلت إلى سورة '+vRef(lk.pos).replace(/ (\S+)$/,'، آية $1'):'تبدأ من سورة الفاتحة'}</div>
+    <div class="dlp"><div class="bar2"><i style="width:${pc}%"></i></div><span>${ar(Math.floor(pc))}٪</span></div>
+    <div class="ls">${[`صفحة ${ar(pg)} · الجزء ${ar(juzAt(pg))}`,n?'استمعت اليوم إلى '+ar(n)+' آية':'لم تستمع اليوم بعد',lk.k?'الختمات المكتملة: '+ar(lk.k):''].filter(Boolean).join(' · ')}</div></div>
+    <button class="wide${playing?' alt':''}" data-l="go">${playing?'إيقاف ختمة الاستماع':lk.pos>0?'تابع ختمة الاستماع':'ابدأ ختمة الاستماع'}</button>
+    <button class="wide alt" data-l="set">القارئ وخيارات الاستماع</button>
+    <small class="hint">تستمع إلى القرآن كاملًا من الفاتحة إلى الناس، ويحفظ البرنامج موضعك في هذه الختمة وحدها دون أن يتأثر بأي استماع آخر. ولبدئها من سورة أخرى افتح «القارئ وخيارات الاستماع».</small></div>`;
+  B.querySelector('[data-l=go]').onclick=()=>{if(au.on&&au.kh){auStop();renderLkTab();return}$('wird').hidden=true;lkStart()};
+  B.querySelector('[data-l=set]').onclick=()=>{$('wird').hidden=true;openAudS()}}
 function setWTab(t){wTab=t;store.set('mushaf-wtab',t);document.querySelectorAll('.wtabs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.wt===t));
-  $('wirdB2').hidden=t!=='r';$('tdB').hidden=t!=='t';if(t==='t'){tdf.open=false;renderTd()}}
+  $('wirdB2').hidden=t!=='r';$('tdB').hidden=t!=='t';$('lkB3').hidden=t!=='l';if(t==='l')renderLkTab();if(t==='t'){tdf.open=false;renderTd()}}
 document.querySelectorAll('.wtabs button').forEach(b=>b.onclick=()=>setWTab(b.dataset.wt));
 {const o=$('wirdB').onclick;$('wirdB').onclick=()=>{o();setWTab(wTab)}}
 window.openTd=()=>{$('wirdB').onclick();setWTab('t')};
@@ -2213,15 +2387,15 @@ try{if(wird)wirdRoll()}catch(e){}pushWidget();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)pushWidget()});
 // ---- user guide: shown once on first launch, reopened from Settings > Tools or the start screen ----
 const GUIDE=[
- ['home','شاشة البداية',`<p>عند فتح البرنامج تظهر بطاقات تساعدك على البدء:</p><ul><li><b>أكمل وردك</b>: يأخذك إلى الموضع الذي توقفت عنده.</li><li><b>ورد اليوم</b> و<b>آية اليوم</b> و<b>ختمة الاستماع</b> و<b>ختمة التدبّر</b>.</li><li>زر الإعدادات أعلى الشاشة لاختيار البطاقات، أو إخفاء الشاشة كلها.</li></ul>`],
- ['read','القراءة والتنقّل',`<ul><li><b>اسحب يمينًا أو يسارًا</b> لتقليب الصفحات، ويمكنك جعلها تمريرًا للأعلى من الخيارات.</li><li>في الأعلى: اسم السورة والجزء والحزب ورقم الصفحة، ثم أزرار <b>وقف الورد</b> و<b>البحث</b> و<b>علامة الصفحة</b>.</li><li>في الأسفل: <b>الفهرس</b> للسور والأجزاء، و<b>الاستماع</b>، و<b>الورد</b>، و<b>الخيارات</b>، وشريط التكبير.</li></ul>`],
+ ['home','شاشة البداية',`<p>عند فتح البرنامج تظهر بطاقات تساعدك على البدء:</p><ul><li><b>أكمل وردك</b>: يأخذك إلى الموضع الذي توقفت عنده.</li><li><b>ورد اليوم</b> و<b>آية اليوم</b> و<b>ختمة الاستماع</b> و<b>ختمة التدبّر</b>.</li><li><b>الاختصارات</b> أعلى الشاشة: الفهرس والبحث والعلامات والملاحظات.</li><li>زر الإعدادات أعلى الشاشة لاختيار البطاقات، أو إخفاء الشاشة كلها.</li></ul>`],
+ ['read','القراءة والتنقّل',`<ul><li><b>اسحب يمينًا أو يسارًا</b> لتقليب الصفحات: تكفي حركة قصيرة لتنقلب، فتدخل الصفحة الجديدة فوق الحالية وهي تتراجع للخلف. وإذا غيّرت رأيك فأرجع إصبعك قبل رفعه فتبقى الصفحة مكانها. ومن الخيارات ← القراءة تختار سرعة التقليب (سريع، متوسط، بطيء، بطيء جدًا) وتأثير الانتقال (مع تأثير أو بدونه). ويمكنك جعلها تمريرًا للأعلى من الخيارات.</li><li><b>اسم السورة</b> أعلى الصفحة يفتح الفهرس، والخط الذهبي تحته يبيّن موضعك من المصحف. وبعد أي انتقال بعيد يظهر زر <b>رجوع</b> يعيدك إلى صفحتك السابقة.</li><li>في خيارات الآية سهمان للانتقال إلى <b>الآية السابقة والتالية</b> دون إغلاقها. وفي التفسير اسحب يمينًا أو يسارًا للانتقال إلى تفسير الآية التالية أو السابقة.</li><li>زر <b>الورد</b> أسفل الشاشة يجمع الختمات الثلاث في تبويبات: ختمة التلاوة، وختمة الاستماع، وختمة التدبّر.</li><li>في الأعلى: اسم السورة والجزء والحزب ورقم الصفحة، ثم أزرار <b>وقف الورد</b> و<b>البحث</b> و<b>علامة الصفحة</b>.</li><li>في الأسفل: <b>الفهرس</b> للسور والأجزاء، و<b>الاستماع</b>، و<b>الورد</b>، و<b>الخيارات</b>، وشريط التكبير.</li></ul>`],
  ['act','اضغط مطوّلًا على أي آية',`<p>تُحدَّد الآية وتظهر قائمة فيها:</p><ul><li><b>استماع</b> من هذه الآية، و<b>تفسير</b> (المختصر والسعدي وابن كثير وغيرها).</li><li><b>نسخ</b> و<b>مشاركة</b> نص الآية.</li><li><b>ملاحظة</b> تكتبها على الآية، و<b>علامة</b> تحفظها في علاماتك.</li><li><b>وقف الورد</b>: لتعرف أين توقفت في وردك، و<b>وقف ملوّن</b> لقراءة مستقلة كسورة تحفظها، و<b>تدبّر</b> إذا بدأت ختمة تدبّر.</li></ul>`],
  ['wird','الورد اليومي وعلامة وقف الورد',`<ul><li>من زر <b>الورد</b> حدّد عدد الصفحات يوميًا أو مدة الختمة، ويذكّرك البرنامج كل يوم.</li><li>تُحسب الصفحة مقروءة عندما تنتقل منها إلى التالية بعد قراءتها.</li><li>ضع <b>علامة وقف الورد</b> على الآية التي توقفت عندها، فتُحسب كل الصفحات قبلها فورًا. وهذا مفيد إذا قرأت من مصحف ورقي.</li><li>إذا وضعت وقف الورد بعيدًا بالخطأ فتقدّم وردك، فانقله إلى الآية الصحيحة قبله، فيرجع وردك إليها وتُحذف الصفحات الزائدة من حساب اليوم.</li><li><b>أدوات الشاشة الرئيسية (ودجت)</b>: اضغط مطوّلًا على مكان فارغ في شاشة الهاتف ← الأدوات (Widgets) ← المصحف الشريف، واختر منها: ورد اليوم، أو عدّاد الورد، أو آية وتذكير، أو تقدّم الختمة، أو رصيد الورد (مربع بشكل الأيقونة فيه الرقم فقط). ويظهر فيها رصيد وردك: ‎-4 للباقي، و0 إذا تم الورد، و‎+6 للزيادة. والضغط على أيٍّ منها يفتح المصحف على وردك.</li><li><b>خط الودجت</b>: لكل ودجت خطها وحجمه وسماكته ولون رقمها. تختارها عند إضافة الودجت، أو لاحقًا من الخيارات ← الخطوط ← خط الودجت.</li><li><b>رصيد الورد</b> يظهر أيضًا أعلى الصفحة بجانب الأزرار بالطريقة نفسها، والضغط عليه يفتح الورد.</li><li><b>علامات الوقف الملوّنة</b>: زر الشريطين أعلى الصفحة، ستة ألوان لكل لون علامة مستقلة عن وقف الورد.</li></ul>`],
  ['aud','الاستماع',`<ul><li>اختر القارئ من أكثر من ٤٠ قارئًا. <b>اضغط مطوّلًا</b> على القارئ لإضافته إلى <b>المفضّلين</b> في أعلى القائمة (حتى ٤).</li><li>غيّر <b>سرعة التلاوة</b>، وكرّر الآية أو المقطع للحفظ.</li><li>تتحرك الصفحة مع القارئ لتبقى الآية أمامك، وتستمر التلاوة والشاشة مقفلة.</li><li>نزّل السورة، أو <b>القرآن كاملًا</b> بصوت قارئك، لتسمعه بدون إنترنت.</li></ul>`],
  ['lk','ختمة الاستماع',`<p>في نافذة الاستماع: ختمة مستقلة تسمع فيها القرآن من الفاتحة إلى الناس.</p><ul><li>يُحفظ موضعها وحدها، فلا يتأثر بسماعك أي آية من مكان آخر.</li><li>تعرض نسبة الإنجاز وما استمعت إليه اليوم، ولها بطاقة في شاشة البداية.</li></ul>`],
  ['td','ختمة التدبّر',`<ul><li>من نافذة <b>الورد</b> اختر تبويب <b>ختمة التدبّر</b>، وحدّد مدتها: شهر أو شهران أو أكثر أو سنة.</li><li>اقرأ بتمهّل، واضغط مطوّلًا على الآية واختر <b>تدبّر</b> لتكتب ما استوقفك.</li><li>تُحفظ ملاحظات كل ختمة وحدها لتقارن بين ختماتك، ويمكنك تصديرها مع ملاحظاتك.</li></ul>`],
  ['zoom','التكبير وقفله',`<ul><li>كبّر الخط بزرّي <b>−</b> و<b>+</b> في الشريط السفلي، أو بإصبعين على الصفحة.</li><li><b>اضغط مطوّلًا على الشريط</b> لقفل التكبير ومنع التكبير غير المقصود، فيظهر رمز القفل. واضغط مطوّلًا مرة أخرى لفتحه.</li></ul>`],
- ['opts','الخيارات',`<ul><li><b>القراءة</b>: تقليب جانبي أو تمرير للأعلى، والتمرير التلقائي.</li><li><b>المظهر</b>: ألوان الصفحة والوضع الليلي وحجم الواجهة.</li><li><b>الخطوط</b>: خط المصحف وحجم التكبير.</li><li><b>أدوات</b>: التذكير بالورد، و<b>تنزيل صفحات المصحف</b> للقراءة بدون إنترنت، وشاشة البداية، و<b>النسخة الاحتياطية الكاملة</b> لكل بياناتك، و<b>هذا الدليل</b> متى احتجته.</li></ul>`]];
+ ['opts','الخيارات',`<ul><li><b>القراءة</b>: تقليب جانبي أو تمرير للأعلى، والتمرير التلقائي، وإعدادات الصفحة (ملء الشاشة، خط أوضح، قفل التكبير)، ووضع الحفظ.</li><li><b>المظهر</b>: ألوان الصفحة والوضع الليلي، وشاشة البداية وما يظهر عليها.</li><li><b>الخطوط</b>: خط التطبيق (١٥ خطًّا) وحجمه، وخط المصحف عند التكبير، وخط التفسير.</li><li><b>أدوات</b>: <b>تنزيل صفحات المصحف</b> للقراءة بدون إنترنت، و<b>النسخة الاحتياطية الكاملة</b> لكل بياناتك، و<b>هذا الدليل</b> متى احتجته.</li></ul>`]];
 let gdI=0;
 function gdShow(i){gdI=Math.max(0,Math.min(GUIDE.length-1,i));const[img,t,x]=GUIDE[gdI];
   const I=$('gdImg');I.src='help/'+img+'.webp';I.alt=t;I.parentElement.classList.toggle('strip',img==='zoom');
